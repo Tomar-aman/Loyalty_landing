@@ -1,0 +1,48 @@
+.modalFooter {
+  padding-top: 20px;
+}
+
+/* MINI MODAL */
+.miniModal {
+  width: 400px;
+  height: auto;
+}
+
+/* MODAL SCROLLBAR */
+.modalContentScrollbar {
+  overflow-y: auto;
+  height: 440px;
+  padding-right: 8px; /* spacing for scrollbar visibility */
+}
+
+/* Track background */
+.modalContentScrollbar::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* light gray track */
+  border-radius: 10px;
+}
+
+/* Actual scrollbar */
+.modalContentScrollbar::-webkit-scrollbar {
+  width: 6px; /* vertical scrollbar width */
+  background-color: transparent; /* removes blue bg */
+}
+
+/* Scrollbar thumb */
+.modalContentScrollbar::-webkit-scrollbar-thumb {
+  background-color: #888; /* visible color */
+  border-radius: 10px;
+}
+
+/* Hover effect on thumb (optional) */
+.modalContentScrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+/* MODAL SCROLLBAR EXIT */
+
+@media (max-width: 600px) {
+  .miniModal {
+    width: 100%;
+    padding: 15px;
+  }
+}

@@ -1,0 +1,143 @@
+.normalLink {
+  color: #3B3B3B;
+  background: transparent;
+  border-radius: 6px;
+  display: flex;
+  width: 220px;
+  margin-bottom: 5px;
+  padding: 0px 0px 0px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+  height: 48px;
+  position: relative;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  align-items: baseline;
+}
+
+.activeLink {
+  color: #AD1003 !important;
+  background: #F2F9FF;
+  border-radius: 6px;
+  display: flex;
+  width: 220px;
+  margin-bottom: 5px;
+  padding: 0px 0px 0px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: capitalize;
+  height: 48px;
+  position: relative;
+  transition: background 0.3s ease, color 0.3s ease;
+  align-items: baseline;
+}
+
+.activeLink::after {
+  content: "";
+  position: absolute;
+  background: transparent;
+  width: 4.5px;
+  height: 50px;
+  left: -16px;
+  top: 0;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  transition: left 0.3s ease;
+}
+
+.muiList {
+  display: flex;
+  justify-content: center;
+}
+
+.header {
+  background-color: #fff;
+  justify-content: space-between;
+  height: 80px;
+}
+
+.headerLogo svg {
+  width: 123px;
+  height: 56px;
+  margin-left: 10px;
+  margin-top: -12px;
+}
+
+/* SUBMENU */
+.normalLinkSubmenu {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 15px;
+  text-transform: capitalize;
+}
+
+.activeLinkSubmenu {
+  font-size: 12px;
+  font-weight: 500;
+  color: #AD1003;
+  margin-bottom: 15px;
+  text-transform: capitalize;
+}
+
+/* DROPDOWN MENU */
+.profileImg {
+  width: 50px;
+  height: 50px;
+  border-radius: 100px;
+  margin-right: 15px;
+  /* border: 1px solid red; */
+  object-fit: contain;
+}
+
+.admin {
+  color: #041C39;
+  font-size: 12px;
+  text-transform: capitalize;
+  font-weight: 600;
+}
+
+.openMenu {
+  padding: 15px;
+  width: 180px;
+  height: 80px;
+}
+
+/* DROPDOWN MENU EXIT */
+
+/* SUBMENU */
+.normalLinkSubmenu {
+  font-size: 12px;
+  font-weight: 500;
+  color: #1a1a1a;
+  margin-bottom: 15px;
+  text-transform: capitalize;
+}
+
+.activeLinkSubmenu {
+  font-size: 12px;
+  font-weight: 500;
+  color: #AD1003;
+  margin-bottom: 15px;
+  text-transform: capitalize;
+}
+
+@media (max-width: 600px) {
+  .dropdownMenu {
+    margin-right: 10px;
+  }
+
+  .profileImg {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+  }
+
+  .welcome {
+    font-size: 11px;
+  }
+
+  .admin {
+    font-size: 13px;
+  }
+}

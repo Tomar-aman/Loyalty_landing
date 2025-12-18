@@ -1,0 +1,251 @@
+.MuiOutlinedInput-notchedOutline {
+  border-width: 0 !important;
+}
+
+.MuiInputBase-root:hover fieldset {
+  border-color: #d8d8d8 !important;
+} 
+
+
+
+/* HTML CUSTOM DATE PICKER START */
+.htmlDatePickerDisabled_Future .labelDate {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 8px 0px;
+  text-transform: capitalize;
+}
+
+.htmlDatePickerDisabled_Future .HTML_CustomInput {
+  width: 100% !important;
+  height: 60px !important;
+  padding-left: 10px !important;
+  border-radius: 10px !important;
+  font-size: 20px !important;
+  color: #000000 !important;
+  font-weight: 500 !important;
+  outline: none !important;
+  border-color: none !important;
+  border: 2px solid #6ab2e2 !important;
+  text-transform: uppercase !important;
+}
+
+.htmlDatePickerDisabled_Future .customDate_Icon {
+  position: absolute;
+  right: 15px;
+  top: 10px;
+}
+
+.htmlDatePickerDisabled_Future input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  background-color: red;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  height: 60px;
+  border-radius: 10px;
+  z-index: 999;
+}
+
+.htmlDatePickerDisabled_Future .customDate_Icon svg {
+  font-size: 40px;
+  color: #2b7e75;
+}
+
+/* HTML CUSTOM DATE PICKER EXIT */
+
+/* THIS IS MUI TABS START */
+.customMuiTabs .MuiButtonBase-root.MuiTab-root {
+  color: #3b3b3b;
+  background: transparent;
+  border-radius: 12px;
+  text-transform: capitalize;
+  font-size: 16px;
+  margin-left: 10px;
+  font-weight: 500;
+  margin: 0;
+  height: 40px;
+}
+
+.customMuiTabs .MuiButtonBase-root.MuiTab-root.Mui-selected {
+  color: #ffffff;
+  background: #041c39;
+  border-radius: 12px;
+  margin: 0;
+  height: 40px;
+}
+
+.customMuiTabs .MuiTabs-indicator {
+  background-color: transparent;
+}
+
+.customMuiTabs .MuiBox-root {
+  padding: 0px;
+}
+
+.customMuiTabs .tabsCard {
+  border: 1px solid #e1e3e6;
+  padding: 15px 10px;
+  border-radius: 8px;
+  background: #e1e3e6;
+}
+
+/* THIS IS MUI TABS EXIT */
+
+/* ADD SOME FROM ADDITIONAL CLASSES */
+.searchInput {
+  border: 1px solid #d0d5dd;
+  height: 48px;
+  border-radius: 12px;
+  padding: 12px 0px;
+  background-color: #ffffff;
+  box-shadow: 0px 1px 2px 0px #1018280d;
+  width: 400px;
+}
+
+.percentageInput input {
+  padding-right: 62px !important;
+}
+
+.textFieldMui .MuiFormControl-root {
+  width: 100%;
+}
+
+.FormLabelCustom {
+  font-size: 14px;
+  font-weight: 500;
+  color: #333333;
+}
+
+/* AUTOCOMPLETE TEXTFIELD */
+
+.autocompleteTextField .MuiAutocomplete-inputRoot {
+  padding: 0 !important;
+}
+
+.autocompleteTextField .MuiAutocomplete-endAdornment {
+  display: none !important;
+}
+
+.autocompleteTextField .MuiAutocomplete-tag {
+  display: none !important;
+}
+
+/* AUTOCOMPLETE TEXTFIELD EXIT */
+
+/* ANTD FROM TO DATE PICKER */
+.custom-calendar-class button.ant-picker-header-super-prev-btn,
+.custom-calendar-class button.ant-picker-header-super-next-btn {
+  display: none !important;
+}
+
+.custom-calendar-class .ant-picker-header {
+  background: transparent !important;
+  margin: 21px 12px 0 !important;
+  font-family: "Inter" !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  height: 36px;
+  align-items: center;
+}
+
+.custom-calendar-class .ant-picker-header button {
+  font-size: 14px !important;
+  color: #525866 !important;
+  letter-spacing: -0.12px !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.12px !important;
+}
+
+.ant-picker-footer {
+  border-top: 1px solid #e1e4ea !important;
+}
+
+.custom-calendar-class .ant-picker-date-panel:nth-child(1) {
+  border-right: 1px solid #e1e4ea !important;
+  width: 368px !important;
+}
+
+.custom-calendar-class .ant-picker-panel+.ant-picker-panel .ant-picker-date-panel {
+  border-right: 0 !important;
+}
+
+.custom-calendar-class .ant-picker-header-prev-btn {
+  height: 24px !important;
+  width: 24px !important;
+  background: transparent !important;
+  box-shadow: none;
+  border-radius: 6px !important;
+  visibility: inherit !important;
+}
+
+.custom-calendar-class .ant-picker-header-super-prev-btn {
+  background: #fff !important;
+  height: 24px !important;
+  width: 24px !important;
+  box-shadow: 0px 1px 2px 0px #0a0d1408;
+  border-radius: 6px !important;
+  margin-right: 5px !important;
+  visibility: inherit !important;
+}
+
+.ant-picker-header-next-btn {
+  visibility: inherit !important;
+  background: transparent !important;
+  height: 24px !important;
+  width: 24px !important;
+  box-shadow: none;
+  border-radius: 6px !important;
+  margin-right: 5px !important;
+}
+
+.ant-picker-header-next-btn .ant-picker-next-icon {
+  position: relative;
+  right: 2px;
+}
+
+.ant-picker-header-super-next-btn {
+  background: #fff !important;
+  height: 24px !important;
+  visibility: inherit !important;
+  width: 24px !important;
+  box-shadow: 0px 1px 2px 0px #0a0d1408;
+  border-radius: 6px !important;
+  margin-right: 5px !important;
+}
+
+.ant-picker-prev-icon::before {
+  border-color: #525866 !important;
+}
+
+.rangeFooter {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
+
+/* ANTD FROM TO DATE PICKER EXIT */
+
+.alertBadge {
+  background-color: #f2f9ff;
+  border: 1px solid #ededed;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 20px;
+  color: #AD1003;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.customLabel {
+  color: #333333;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 0px;
+  text-transform: capitalize;
+}

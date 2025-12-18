@@ -1,0 +1,21 @@
+.clickableBox {
+  display: flex;
+  align-items: center;
+  color: #041C39;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.breadcrumbIcon {
+  color: #041C39;
+  margin-right: 5px;
+  line-height: 0;
+  background-color: #EDEDED;
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+}
+
+.breadcrumbSeparator {
+  display: none;
+}

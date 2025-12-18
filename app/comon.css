@@ -1,0 +1,181 @@
+.comonCard {
+  border: 2px solid #e0e6ed;
+  background-color: #ffffff;
+  min-height: 132px;
+  height: auto;
+  border-radius: 11px;
+  padding: 16px;
+}
+
+.comonCardHeader {
+  border-bottom: 1px solid #efefef;
+  padding-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.spaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flexes {
+  display: flex;
+  align-items: center;
+}
+
+.dashedCard {
+  border: 1px dashed #cacaca;
+  border-radius: 6px;
+  padding: 14px !important;
+  min-height: 190px;
+}
+
+.dashedCardCheckList {
+  border: 1px dashed #cacaca;
+  border-radius: 6px;
+  padding: 14px 14px 40px !important;
+  height: 280px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.truncateCssSingleLine {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dashedCardUploadingDoc {
+  border: 1px dashed #cacaca;
+  border-radius: 6px;
+  padding: 5px;
+  height: 190px;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+
+.solidCard {
+  border: 2px solid #e0e6ed;
+  background-color: #ffffff;
+  border-radius: 11px;
+  padding: 16px !important;
+  margin-bottom: 10px;
+}
+
+.dashedCardBadge {
+  padding: 2px;
+  height: 40px;
+  background-color: #f2f9ff;
+  align-items: center;
+  display: flex;
+}
+
+.flexes svg {
+  width: 25px;
+}
+
+.flexes .MuiTypography-root {
+  margin-left: 10px;
+}
+
+.customInputCss input {
+  height: 40px !important;
+  padding-right: 48px !important;
+}
+
+/* TABLE CHAT MESSAGE */
+.chatBadge {
+  position: absolute;
+  right: 6px;
+  z-index: 9;
+  background: #f52c1b;
+  width: 12px;
+  height: 12px;
+  border-radius: 100px;
+  display: flex;
+  justify-content: center;
+  font-size: 8px;
+  align-items: center;
+  top: 3px;
+  color: #ffffff;
+  font-weight: 400;
+}
+
+.chatMessageIcon {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.backStepperArrow {
+  color: #041c39;
+  margin-right: 5px;
+  line-height: 0;
+  background-color: #ededed;
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+}
+
+.MuiCircularProgress-root {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100px !important;
+  height: 100px !important;
+}
+
+.tableDataBgColor {
+  background: #9cc9ff1a;
+  border-radius: 8px;
+  width: auto;
+  word-break: break-all;
+  min-width: 200px;
+  margin-bottom: 8px;
+}
+
+.miniCircleShowBtn {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+/* NEW */
+.dashedCardUploadMultipleDoc {
+  border: 1px dashed #cacaca;
+  border-radius: 6px;
+  padding: 10px;
+  min-height: 160px;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
+
+.dashedCardUploadMultipleDoc p {
+  width: unset;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashedCardUploadSingleDoc {
+  border: 1px dashed #cacaca;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #f8f9fc;
+  background: #ffffff;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 189px;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+}
