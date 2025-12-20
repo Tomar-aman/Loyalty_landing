@@ -1,13 +1,27 @@
 "use client";
 import { Grid, Typography, Box, Card } from "@mui/material";
 import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
-import ImageGallery from "../components/gallery-comp/imageGallery";
 import CostumeButton from "../components/button";
-import Directions from "../components/gallery-comp/Directions";
-import BusinessMap from "../components/home-comp/businessMap";
+// import Directions from "../components/gallery-comp/Directions";
+// import ImageGallery from "../components/gallery-comp/imageGallery";
+// import BusinessMap from "../components/home-comp/businessMap";
 import LocationPinIcon from "@mui/icons-material/LocationPin";
+import dynamic from "next/dynamic";
+const ImageGallery = dynamic(
+  () => import("../components/gallery-comp/imageGallery"),
+  { ssr: false }
+);
 
-// Offers Data
+const Directions = dynamic(
+  () => import("../components/gallery-comp/Directions"),
+  { ssr: false }
+);
+
+const BusinessMap = dynamic(
+  () => import("../components/home-comp/businessMap"),
+  { ssr: false }
+);
+
 const offers = [
   {
     title: "20% Off Dinner",
