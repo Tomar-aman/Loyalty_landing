@@ -42,7 +42,7 @@ export default function Topbanner() {
               <CostumeButton
                 className="primaryBtn"
                 stylesRest={{ width: "fit-content !important" }}
-                // endIcon={<SVGICON.Arrowup />}
+                endIcon={<SVGICON.Arrowup />}
               >
                 Start Planning
               </CostumeButton>
