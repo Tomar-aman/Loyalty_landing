@@ -215,10 +215,18 @@ export default function Footer() {
         </Typography>
 
         <Box sx={{ display: "flex", gap: 4 }}>
-          <ClickableBox style={{ color: "#64748B", fontSize: "14px" }}>
+          <ClickableBox
+            nextPageUrl="/privacy-policy"
+            target="_blank"
+            style={{ color: "#64748B", fontSize: "14px" }}
+          >
             Privacy Policy
           </ClickableBox>
-          <ClickableBox style={{ color: "#64748B", fontSize: "14px" }}>
+          <ClickableBox
+            target="_blank"
+            nextPageUrl="/terms-of-use"
+            style={{ color: "#64748B", fontSize: "14px" }}
+          >
             Terms of Service
           </ClickableBox>
           <ClickableBox style={{ color: "#64748B", fontSize: "14px" }}>
