@@ -9,7 +9,7 @@ const privacyPolicyData = [
   {
     title: "2. Information We Collect",
     description:
-      "We collect personal details such as name, email, phone number, as well as non-personal data like browser type and usage activity.",
+      "We collect personal details such as name, email, phone number, as well as type and usage activity.",
   },
   // {
   //   title: "3. How We Use Your Information",
