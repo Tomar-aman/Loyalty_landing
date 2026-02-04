@@ -2,7 +2,6 @@
 import { Box, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
-
 import Topbanner from "../components/home-comp/topbanner";
 import ExploreBusiness from "../components/home-comp/exploreBusiness";
 import AdvantageCard from "../components/home-comp/advantageCard";
@@ -11,30 +10,69 @@ import HowItWorks from "../components/home-comp/howItWorks";
 import LatestNewsUpdates from "../components/home-comp/latestNewsUpdates";
 import GetInTouch from "../components/home-comp/getInTouch";
 
-import { getLandingPageContent } from "../api/home";
-import { LandingPageContent } from "@/services/types.";
+import {
+  getLandingPageContent,
+  getFeaturedBusinesses,
+  getNewsItems,
+  getCards,
+  getFaqs,
+} from "../api/home";
+
+import {
+  LandingPageContent,
+  FAQItem,
+  NewsItem,
+  CardPlan,
+  BusinessItem,
+} from "@/services/types.";
+
 import { RemoteStatus } from "../api/types";
-//import { LandingPageContent, RemoteStatus } from "../../services/types";
 
 const Landing = () => {
-  const [data, setData] = useState<LandingPageContent | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [landing, setLanding] = useState<LandingPageContent | null>(null);
+  const [businesses, setBusinesses] = useState<BusinessItem[]>([]);
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [cards, setCards] = useState<CardPlan[]>([]);
+  const [faqs, setFaqs] = useState<FAQItem[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchLandingContent = async () => {
+    const fetchAllData = async () => {
       setLoading(true);
-      const res = await getLandingPageContent();
 
-      if (res.remote === RemoteStatus.Success) {
-        setData(res.data);
-      } else {
-        console.error("Landing API error:", res.error);
-      }
+      const [
+        landingRes,
+        businessRes,
+        newsRes,
+        cardRes,
+        faqRes,
+      ] = await Promise.all([
+        getLandingPageContent(),
+        getFeaturedBusinesses(),
+        getNewsItems(),
+        getCards(),
+        getFaqs(),
+      ]);
+
+      if (landingRes.remote === RemoteStatus.Success)
+        setLanding(landingRes.data as LandingPageContent);
+
+      if (businessRes.remote === RemoteStatus.Success)
+        setBusinesses(businessRes.data as BusinessItem[]);
+
+      if (newsRes.remote === RemoteStatus.Success)
+        setNews(newsRes.data as NewsItem[]);
+
+      if (cardRes.remote === RemoteStatus.Success)
+        setCards(cardRes.data as CardPlan[]);
+
+      if (faqRes.remote === RemoteStatus.Success)
+        setFaqs(faqRes.data as FAQItem[]);
 
       setLoading(false);
     };
 
-    fetchLandingContent();
+    fetchAllData();
   }, []);
 
   if (loading) {
@@ -45,67 +83,46 @@ const Landing = () => {
     );
   }
 
-  if (!data) return null;
+  if (!landing) return null;
 
   return (
     <>
-      {/* Top Banner */}
       <Topbanner
-        title={data.banner_title}
-        description={data.banner_description}
-        image={data.banner_image}
+        title={landing.banner_title}
+        description={landing.banner_description}
+        image={landing.banner_image}
       />
 
       <Box className="pageColor">
-        <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h2">
-            <span
-              style={{
-                background: "none",
-                WebkitBackgroundClip: "unset",
-                WebkitTextFillColor: "#020817",
-                paddingRight: "10px",
-              }}
-            >
-              Explore Local
-            </span>
-            Businesses
-          </Typography>
-
-          <Typography
-            variant="h6"
-            sx={{ color: "#64748B", my: 3, fontSize: "20px" }}
-          >
-            {data.business_section_description}
-          </Typography>
-        </Box>
-
         <Stack spacing={4}>
           <ExploreBusiness
-            title={data.business_section_title}
-            description={data.business_section_description}
+            title={landing.business_section_title}
+            description={landing.business_section_description}
+            businesses={businesses}
           />
 
           <AdvantageCard
-            title={data.card_section_title}
-            description={data.card_section_description}
-            image={data.card_section_image}
+            title={landing.card_section_title}
+            description={landing.card_section_description}
+            image={landing.card_section_image}
+            cards={cards}
           />
 
           <HowItWorks />
 
           <LatestNewsUpdates
-            title={data.news_section_title}
-            description={data.news_section_description}
+            title={landing.news_section_title}
+            description={landing.news_section_description}
+            news={news}
           />
 
           <GetInTouch />
 
-          {/* <FrequentlyQuestions
-            title={data.faq_section_title}
-            description={data.faq_section_description}
-            faqs={[]} // plug real FAQ API data later
-          /> */}
+          <FrequentlyQuestions
+            title={landing.faq_section_title}
+            description={landing.faq_section_description}
+            faqs={faqs}
+          />
         </Stack>
       </Box>
     </>

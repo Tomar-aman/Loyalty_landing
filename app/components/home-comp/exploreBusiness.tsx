@@ -1,14 +1,23 @@
+"use client";
 import { Grid, Typography, Box } from "@mui/material";
 import CostumeButton from "../button";
 import CustomTabs from "../tabs/tab";
 import RoomIcon from "@mui/icons-material/Room";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import BusinessMap from "./businessMap";
 import ClickableBox from "../router";
+import { BusinessItem } from "@/services/types.";
+import { useMemo } from "react";
+import dynamic from "next/dynamic";
 
-/* ---------- TYPES ---------- */
-export interface BusinessItem {
+/* ---------- MAP (NO SSR) ---------- */
+const BusinessMap = dynamic(() => import("./businessMap"), {
+  ssr: false,
+});
+
+/* ---------- UI TYPE ---------- */
+interface UIBusiness {
+  id: number | string;
   title: string;
   category: string;
   discount: string;
@@ -17,50 +26,56 @@ export interface BusinessItem {
   time: string;
 }
 
+/* ---------- PROPS ---------- */
 interface ExploreBusinessProps {
   title?: string;
   description?: string;
   businesses?: BusinessItem[];
 }
 
-/* ---------- FALLBACK DATA ---------- */
-const fallbackData: BusinessItem[] = [
+/* ---------- FALLBACK ---------- */
+const fallbackData: UIBusiness[] = [
   {
+    id: "fallback",
     title: "Bella Vista Restaurant",
     category: "Restaurant",
-    discount: "Discount Text",
+    discount: "Discount Available",
     address: "123 Main Street",
     phone: "(555) 123-4567",
     time: "9:00 AM - 10:00 PM",
   },
-  {
-    title: "Tech Solutions Hub",
-    category: "Technology",
-    discount: "Discount",
-    address: "456 Tech Avenue",
-    phone: "(555) 234-5678",
-    time: "8:00 AM - 6:00 PM",
-  },
-  {
-    title: "Green Garden Spa",
-    category: "Health & Beauty",
-    discount: "Discount",
-    address: "789 Wellness Way",
-    phone: "(555) 345-6789",
-    time: "10:00 AM - 8:00 PM",
-  },
 ];
+
+/* ---------- MAPPER ---------- */
+const mapBusinessToUI = (item: BusinessItem): UIBusiness => ({
+  id: item.id,
+  title: item.name,
+  category: item.category?.name ?? "Business",
+  discount: item.discount_text ?? "Special discounts available",
+  address: item.address ?? "Address not available",
+  phone: item.phone ?? "N/A",
+  time:
+    item.opening_time && item.closing_time
+      ? `${item.opening_time} - ${item.closing_time}`
+      : "Timings not available",
+});
 
 export default function ExploreBusiness({
   title,
   description,
-  businesses,
+  businesses = [],
 }: ExploreBusinessProps) {
-  const cardData = businesses && businesses.length ? businesses : fallbackData;
+  /* ---------- GRID DATA ---------- */
+  const cardData: UIBusiness[] = useMemo(() => {
+    if (!Array.isArray(businesses) || businesses.length === 0) {
+      return fallbackData;
+    }
+    return businesses.map(mapBusinessToUI);
+  }, [businesses]);
 
   return (
     <>
-      {/* Section Heading */}
+      {/* ---------- SECTION HEADER ---------- */}
       {(title || description) && (
         <Box textAlign="center">
           {title && <Typography variant="h2">{title}</Typography>}
@@ -77,13 +92,12 @@ export default function ExploreBusiness({
         tabContents={[
           /* ---------- GRID VIEW ---------- */
           <Grid container spacing={2} sx={{ pt: 3 }} key="grid">
-            {cardData.map((item, index) => (
-              <Grid size={{ xs: 12, md: 4 }} key={index}>
+            {cardData.map((item) => (
+              <Grid size={{ xs: 12, md: 4 }} key={item.id}>
                 <Box
                   className="customCardShadow"
                   sx={{ boxShadow: "0px 1px 36.9px 0px #6A6A6A40" }}
                 >
-                  {/* Header */}
                   <Box display="flex" justifyContent="space-between">
                     <Typography variant="h3">{item.title}</Typography>
                     <ClickableBox nextPageUrl="/gallery">
@@ -101,7 +115,6 @@ export default function ExploreBusiness({
                     {item.discount}
                   </Typography>
 
-                  {/* Details */}
                   <Box mt={2}>
                     <InfoRow icon={<RoomIcon fontSize="small" />} text={item.address} />
                     <InfoRow icon={<LocalPhoneIcon fontSize="small" />} text={item.phone} />
@@ -115,13 +128,19 @@ export default function ExploreBusiness({
           /* ---------- MAP VIEW ---------- */
           <Grid container sx={{ pt: 3 }} key="map">
             <Grid size={{ xs: 12 }}>
-              <BusinessMap />
+              {businesses.length > 0 ? (
+                <BusinessMap businesses={businesses} />
+              ) : (
+                <Typography textAlign="center" color="text.secondary">
+                  No locations available
+                </Typography>
+              )}
             </Grid>
           </Grid>,
         ]}
       />
 
-      {/* View All */}
+      {/* ---------- VIEW ALL ---------- */}
       <Box my={3} display="flex" justifyContent="center">
         <ClickableBox nextPageUrl="/explore-businesses">
           <CostumeButton className="primaryBtn">View all</CostumeButton>
@@ -131,7 +150,7 @@ export default function ExploreBusiness({
   );
 }
 
-/* ---------- SMALL HELPER COMPONENT ---------- */
+/* ---------- HELPER ---------- */
 const InfoRow = ({
   icon,
   text,

@@ -4,27 +4,29 @@ import SVGICON from "@/app/assets/svg/icon";
 import CostumeButton from "../button";
 import Image from "next/image";
 import IMAGES from "@/app/assets/images";
+import { CardPlan } from "@/services/types.";
 
+/* ---------- PROPS ---------- */
 interface AdvantageCardProps {
   title?: string;
   description?: string;
   image?: string | null;
+  cards?: CardPlan[];
 }
 
 export default function AdvantageCard({
   title,
   description,
   image,
+  cards = [],
 }: AdvantageCardProps) {
   return (
     <Box>
       <Grid container spacing={4}>
-        {/* -------- LEFT SECTION -------- */}
+        {/* ---------- LEFT SECTION ---------- */}
         <Grid size={{ xs: 12, md: 6 }}>
           <Typography variant="h2">
-            {title ? (
-              title
-            ) : (
+            {title ?? (
               <>
                 <span
                   style={{
@@ -50,22 +52,18 @@ export default function AdvantageCard({
               "Get instant access to exclusive discounts and deals from local businesses. Choose the plan that fits your lifestyle and start saving today."}
           </Typography>
 
-          {/* Placeholder / CMS Image */}
-          <Box className="customCardShadow">
-            <Typography variant="h2" textAlign="center" py={5}>
-              Coming soon
-            </Typography>
-          </Box>
-
+          {/* IMAGE */}
           <Box my={3}>
             <Image
-              src={image ?? IMAGES.ActivatcardNew}
+              src={image || IMAGES.ActivatcardNew}
               alt="Advantage Card"
+              width={600}
+              height={400}
               style={{ width: "100%", borderRadius: "12px" }}
             />
           </Box>
 
-          {/* Icons row */}
+          {/* FEATURES */}
           <Grid container spacing={2}>
             <FeatureCard
               icon={<SVGICON.Check />}
@@ -84,60 +82,51 @@ export default function AdvantageCard({
           </Grid>
         </Grid>
 
-        {/* -------- RIGHT SECTION -------- */}
+        {/* ---------- RIGHT SECTION (DYNAMIC PLANS) ---------- */}
         <Grid size={{ xs: 12, md: 6 }}>
-          <PlanCard
-            icon={<SVGICON.Celerate />}
-            title="1 Day Pass"
-            duration="24 hours"
-            price="$4.99"
-            features={[
-              "Access to all business discounts",
-              "Real-time deal notifications",
-              "Basic customer support",
-            ]}
-            buttonText="Activate 1 Day Pass"
-            variant="outlineBtn"
-          />
-
-          <PlanCard
-            icon={<SVGICON.Timerfill />}
-            title="1 Week Pass"
-            duration="7 days"
-            price="$19.99"
-            popular
-            features={[
-              "All 1 Day Pass features",
-              "Priority customer support",
-              "Extended discount periods",
-              "Exclusive weekly deals",
-            ]}
-            buttonText="Activate 1 Week Pass"
-            variant="primaryBtn"
-          />
-
-          <PlanCard
-            icon={<SVGICON.Celerate />}
-            title="1 Month Pass"
-            duration="30 days"
-            price="$39.99"
-            features={[
-              "All previous features",
-              "VIP customer support",
-              "Early access to new businesses",
-              "Premium member events",
-              "Special birthday offers",
-            ]}
-            buttonText="Activate 1 Month Pass"
-            variant="outlineBtn"
-          />
+          {cards.length > 0 ? (
+            cards.map((card, index) => (
+              <PlanCard
+                key={card.id}
+                icon={<SVGICON.Celerate />}
+                title={card.name}
+                duration={formatDuration(card.duration)}
+                price={`$${card.price}`}
+                features={card.short_description.split("\n")}
+                popular={card.is_popular || index === 1}
+                buttonText={`Activate ${card.name}`}
+                variant={card.is_popular ? "primaryBtn" : "outlineBtn"}
+              />
+            ))
+          ) : (
+            <Typography color="text.secondary">
+              No plans available
+            </Typography>
+          )}
         </Grid>
       </Grid>
     </Box>
   );
 }
 
-/* ---------- SMALL REUSABLE COMPONENTS ---------- */
+/* ---------- HELPERS ---------- */
+
+const formatDuration = (value: string) => {
+  switch (value) {
+    case "1_day":
+      return "24 hours";
+    case "1_week":
+      return "7 days";
+    case "1_month":
+      return "30 days";
+    case "1_year":
+      return "1 year";
+    default:
+      return value;
+  }
+};
+
+/* ---------- REUSABLE COMPONENTS ---------- */
 
 const FeatureCard = ({
   icon,
@@ -211,13 +200,7 @@ const PlanCard = ({
       </Box>
     )}
 
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "space-between",
-        mt: popular ? 3 : 0,
-      }}
-    >
+    <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
       <Stack direction="row" spacing={2}>
         {icon}
         <Box>
@@ -227,6 +210,7 @@ const PlanCard = ({
           </Typography>
         </Box>
       </Stack>
+
       <Box textAlign="end">
         <Typography variant="h5">{price}</Typography>
         <Typography variant="h6" color="#64748B">

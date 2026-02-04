@@ -7,13 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import React, { CSSProperties, useState } from "react";
-import {
-  Visibility,
-  VisibilityOff,
-  ArrowDropUp,
-  ArrowDropDown,
-} from "@mui/icons-material";
-import styles from "./style.module.css";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import { SxProps, Theme } from "@mui/material/styles";
@@ -22,7 +16,6 @@ interface IInput extends StandardTextFieldProps {
   label?: React.ReactNode;
   Placeholder?: string;
   icon?: React.ReactNode;
-  defaultValue?: string;
   placeholderStyle?: any;
   readOnly?: boolean;
   className?: string;
@@ -38,7 +31,6 @@ function LabeledInputComponent({
   type = "text",
   Placeholder,
   icon,
-  defaultValue,
   placeholderStyle,
   readOnly,
   className,
@@ -47,25 +39,21 @@ function LabeledInputComponent({
   iconPosition = "left",
   restStyleIcon,
   required,
+  value,
+  onChange,
   ...rest
 }: IInput) {
-  const [value, setValue] = useState<number | string>(defaultValue || "");
   const [showPassword, setShowPassword] = useState(false);
 
-  // Handlers for password visibility toggle
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  /* ---------- PASSWORD TOGGLE ---------- */
+  const handleClickShowPassword = () => setShowPassword((prev) => !prev);
   const handleMouseDownPassword = (
     event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-  };
-
-  // Handlers for increment and decrement
-  const handleIncrement = () => setValue((prev) => (Number(prev) || 0) + 1);
-  const handleDecrement = () => setValue((prev) => (Number(prev) || 0) - 1);
+  ) => event.preventDefault();
 
   return (
     <>
+      {/* ---------- LABEL ---------- */}
       {label && (
         <FormLabel
           sx={{
@@ -83,6 +71,7 @@ function LabeledInputComponent({
         </FormLabel>
       )}
 
+      {/* ---------- INPUT ---------- */}
       <Box sx={{ position: "relative", display: "flex", alignItems: "center" }}>
         <TextField
           sx={
@@ -93,14 +82,6 @@ function LabeledInputComponent({
                 border: "1px solid #E2E8F0",
                 height: "40px",
                 background: "#FFFFFF",
-                // paddingLeft:
-                //   icon && iconPosition === "left"
-                //     ? "30px !important"
-                //     : "5px !important",
-                // paddingRight:
-                //   icon && iconPosition === "right"
-                //     ? "30px !important"
-                //     : "5px !important",
                 fontWeight: "400",
                 fontSize: "16px",
                 color: "#000",
@@ -116,17 +97,17 @@ function LabeledInputComponent({
               },
             } as SxProps<Theme>
           }
+          {...rest}
           placeholder={Placeholder}
           type={type === "password" && showPassword ? "text" : type}
-          {...rest}
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
+          value={value ?? ""}            // ✅ CONTROLLED
+          onChange={onChange}            // ✅ FORWARD EVENT
           InputProps={{
             readOnly,
           }}
         />
 
-        {/* Conditional rendering for password toggle */}
+        {/* ---------- PASSWORD ICON ---------- */}
         {type === "password" && (
           <Box sx={{ position: "absolute", right: "20px" }}>
             <IconButton
@@ -136,15 +117,15 @@ function LabeledInputComponent({
               edge="end"
             >
               {showPassword ? (
-                <Visibility sx={{ fontSize: "24px", color: "#A1A1A1" }} />
+                <Visibility sx={{ fontSize: 24, color: "#A1A1A1" }} />
               ) : (
-                <VisibilityOff sx={{ fontSize: "24px", color: "#A1A1A1" }} />
+                <VisibilityOff sx={{ fontSize: 24, color: "#A1A1A1" }} />
               )}
             </IconButton>
           </Box>
         )}
 
-        {/* THIS IS A UP DOWN NUMBER WITH ARROW  */}
+        {/* ---------- NUMBER STEPPER (OPTIONAL) ---------- */}
         {type === "number" && showStepper && (
           <Box
             sx={{
@@ -154,31 +135,18 @@ function LabeledInputComponent({
               right: "20px",
             }}
           >
-            <IconButton
-              onClick={handleIncrement}
-              size="small"
-              sx={{ padding: "0px", color: "#6E6E6E" }}
-            >
+            <IconButton size="small">
               <KeyboardArrowUpIcon />
             </IconButton>
-            <IconButton
-              onClick={handleDecrement}
-              size="small"
-              sx={{ padding: "0px", color: "#6E6E6E" }}
-            >
+            <IconButton size="small">
               <KeyboardArrowDownIcon />
             </IconButton>
           </Box>
         )}
 
+        {/* ---------- ICON ---------- */}
         {icon && (
           <Box
-            // sx={{
-            //   position: "absolute",
-            //   left: "12px",
-            //   top: "14px",
-            //   ...restStyleIcon,
-            // }}
             sx={{
               position: "absolute",
               left: iconPosition === "left" ? "12px" : "auto",

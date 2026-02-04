@@ -1,3 +1,7 @@
+/* =======================
+   API STATUS & RESPONSES
+======================= */
+
 export enum RemoteStatus {
   Idle = "IDLE",
   Loading = "LOADING",
@@ -19,6 +23,9 @@ export interface ErrorResponse {
   };
 }
 
+/* =======================
+   LANDING PAGE
+======================= */
 
 export interface LandingPageContent {
   id: number;
@@ -49,3 +56,96 @@ export interface LandingPageContent {
   footer_section_description: string | null;
 }
 
+/* =======================
+   FAQ
+======================= */
+
+export interface FAQItem {
+  id: number;
+  question: string;
+  answer: string;
+}
+
+/* =======================
+   NEWS
+======================= */
+
+export interface NewsItem {
+  id: number;
+  title: string;
+  content: string;
+  published_at: string;
+  read_time?: string;
+  image?: string | null;
+}
+
+/* =======================
+   CARDS
+======================= */
+
+export interface CardPlan {
+  id: number;
+  title: string;
+  duration: string;
+  price: string;
+  name: string;
+  short_description: string;
+  features: string[];
+  is_popular?: boolean;
+}
+
+/* =======================
+   CONTACT / FORMS
+======================= */
+
+export interface ContactUsPayload {
+  name: string;
+  email: string;
+  message: string;
+}
+
+export interface SupportPayload {
+  name: string;
+  email: string;
+  issue: string;
+}
+
+export interface SubscribePayload {
+  email: string;
+}
+
+
+/* ---------- BUSINESS ---------- */
+export interface BusinessItem {
+  id: number;
+  name: string;
+  category?: {
+    name: string;
+  } | null;
+  discount_text?: string | null;
+  address?: string | null;
+  phone?: string | null;
+  opening_time?: string | null;
+  closing_time?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+}
+
+/* ---------- NEWS ---------- */
+export interface NewsItem {
+  id: number;
+  title: string;
+  description: string;
+  published_at: string;
+  read_time?: string;
+}
+
+/* ---------- CARD ---------- */
+export interface CardPlan {
+  id: number;
+  title: string;
+  duration: string;
+  price: string;
+  features: string[];
+  is_popular?: boolean;
+}
