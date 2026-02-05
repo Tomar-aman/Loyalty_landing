@@ -1,5 +1,5 @@
 import * as api from "../api"; 
-
+import { PaginatedResponse, BusinessItem, CardPlan, NewsItem } from "@/services/types.";
 
 export const getLandingPageContent = async () => {
   return api.request({
@@ -10,13 +10,23 @@ export const getLandingPageContent = async () => {
 };
 
 /* ---------- FEATURED BUSINESSES ---------- */
-export const getFeaturedBusinesses = async () =>
-  api.request({
-    url: "/v1/business/businesses/?is_featured=True&search=&sort=desc",
+
+
+export const getFeaturedBusinesses = async () => {
+  return api.request<PaginatedResponse<BusinessItem>>({
+    url: "/v1/business/businesses/?is_featured=True&search&sort=desc",
     method: "GET",
     skipAuth: true,
   });
+};
 
+export const getBusinessDetails = async (id: number | string) => {
+  return api.request<any>({
+    url: `/v1/business/businesses/${id}/`,
+    method: "GET",
+    skipAuth: true,
+  });
+};
 
 /* ---------- FAQs ---------- */
 export const getFaqs = async () => {
@@ -69,6 +79,15 @@ export const submitSupportRequest = async (payload: {
 };
 
 
+export const getFooterDetails = async () => {
+  return api.request({
+    url: "/v1/contact/support/",
+    method: "GET",
+    skipAuth: true,
+  });
+};
+
+
 /* ---------- Advantage Cards ---------- */
 export const getCards = async () => {
   return api.request({
@@ -87,4 +106,3 @@ export const getNewsItems = async () => {
     skipAuth: true,
   });
 };
-

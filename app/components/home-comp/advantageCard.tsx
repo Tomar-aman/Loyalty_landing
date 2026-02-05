@@ -64,7 +64,7 @@ export default function AdvantageCard({
           </Box>
 
           {/* FEATURES */}
-          <Grid container spacing={2}>
+          {/* <Grid container spacing={2}>
             <FeatureCard
               icon={<SVGICON.Check />}
               title="Instant Activation"
@@ -79,7 +79,7 @@ export default function AdvantageCard({
               bg="#E3E4FE"
               border="#0000FF33"
             />
-          </Grid>
+          </Grid> */}
         </Grid>
 
         {/* ---------- RIGHT SECTION (DYNAMIC PLANS) ---------- */}
@@ -92,7 +92,7 @@ export default function AdvantageCard({
                 title={card.name}
                 duration={formatDuration(card.duration)}
                 price={`$${card.price}`}
-                features={card.short_description.split("\n")}
+                features={card.benefits?.map(b => b.title) ?? []}
                 popular={card.is_popular || index === 1}
                 buttonText={`Activate ${card.name}`}
                 variant={card.is_popular ? "primaryBtn" : "outlineBtn"}
@@ -226,7 +226,7 @@ const PlanCard = ({
           sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}
         >
           <SVGICON.Check />
-          <Typography variant="h6">{text}</Typography>
+          <Typography variant="h6" color="#64748B">{text}</Typography>
         </Box>
       ))}
     </Box>

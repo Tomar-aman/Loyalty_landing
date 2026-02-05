@@ -14,6 +14,18 @@ export interface SuccessResponse<T> {
   data: T;
 }
 
+
+export interface FooterDetails {
+  address: string;
+  phone: string;
+  email: string;
+  facebook?: string;
+  instagram?: string;
+  twitter?: string;
+  linkedin?: string;
+  copyright?: string;
+}
+
 export interface ErrorResponse {
   remote: RemoteStatus.Failure;
   error: {
@@ -83,15 +95,21 @@ export interface NewsItem {
    CARDS
 ======================= */
 
-export interface CardPlan {
+export interface CardBenefit {
   id: number;
   title: string;
+  description: string;
+}
+
+export interface CardPlan {
+  id: number;
+  name: string;
   duration: string;
   price: string;
-  name: string;
   short_description: string;
-  features: string[];
+  is_active: boolean;
   is_popular?: boolean;
+  benefits: CardBenefit[];   // ⭐ FIXED
 }
 
 /* =======================
@@ -124,8 +142,9 @@ export interface BusinessItem {
   } | null;
   discount_text?: string | null;
   address?: string | null;
-  phone?: string | null;
+  phone_number?: string | null;
   opening_time?: string | null;
+  created_at?: string | null;
   closing_time?: string | null;
   latitude?: number | null;
   longitude?: number | null;
@@ -138,6 +157,7 @@ export interface NewsItem {
   description: string;
   published_at: string;
   read_time?: string;
+  results?: NewsItem[]
 }
 
 /* ---------- CARD ---------- */
@@ -148,4 +168,20 @@ export interface CardPlan {
   price: string;
   features: string[];
   is_popular?: boolean;
+}
+
+
+export interface PaginatedResponse<T> {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  results: T[];
+}
+
+export interface ApiListResponse<T> {
+  results: T[];
+}
+
+export interface ApiSingleResponse<T> {
+  data: T;
 }

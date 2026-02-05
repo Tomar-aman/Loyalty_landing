@@ -1,212 +1,131 @@
+"use client";
+
 import { Grid, Typography, Box } from "@mui/material";
 import RoomIcon from "@mui/icons-material/Room";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CostumeButton from "../components/button";
+import { useEffect, useState } from "react";
+
+import { getFeaturedBusinesses } from "../api/home";
+import { RemoteStatus } from "../api/types";
+import { BusinessItem } from "@/services/types.";
+
+interface UIBusiness {
+  id: number;
+  title: string;
+  category: string;
+  discount: string;
+  address: string;
+  phone: string;
+  time: string;
+}
+interface ApiResponse {
+  remote: RemoteStatus;
+  data: {
+    results: BusinessItem[];
+  };
+}
+/* ⭐ API → UI MAPPER */
+const mapBusinessToUI = (item: BusinessItem): UIBusiness => ({
+  id: item.id,
+  title: item.name,
+  category: item.category?.name ?? "Business",
+  discount: item.discount_text ?? "Special discounts available",
+  address: item.address ?? "Address not available",
+  phone: item.phone_number ?? "N/A",
+  time:
+    item.opening_time && item.closing_time
+      ? `${item.opening_time} - ${item.closing_time}`
+      : "Timings not available",
+});
 
 export default function ExploreBusiness() {
-  const cardData = [
-    {
-      title: "Bella Vista Restaurant",
-      category: "Restaurant",
-      discount: "Discount Text",
-      address: "123 Main Street",
-      phone: "(555) 123-4567",
-      time: "9:00 AM - 10:00 PM",
-    },
-    {
-      title: "Tech Solutions Hub",
-      category: "Technology",
-      discount: "Discount",
-      address: "456 Tech Avenue",
-      phone: "(555) 234-5678",
-      time: "8:00 AM - 6:00 PM",
-    },
-    {
-      title: "Green Garden Spa",
-      category: "Health & Beauty",
-      discount: "Discount",
-      address: "789 Wellness Way",
-      phone: "(555) 345-6789",
-      time: "10:00 AM - 8:00 PM",
-    },
-    {
-      title: "Urban Coffee Co.",
-      category: "Café",
-      discount: "Discount",
-      address: "321 Coffee Street",
-      phone: "(555) 456-7890",
-      time: "6:00 AM - 9:00 PM",
-    },
-    {
-      title: "Elite Automotive",
-      category: "Automotive",
-      discount: "Discount",
-      address: "654 Auto Lane",
-      phone: "(555) 567-8901",
-      time: "7:00 AM - 7:00 PM",
-    },
-    {
-      title: "Fashion Forward",
-      category: "Retail",
-      discount: "Discount",
-      address: "987 Style Boulevard",
-      phone: "(555) 678-9012",
-      time: "10:00 AM - 9:00 PM",
-    },
-    {
-      title: "Bella Vista Restaurant",
-      category: "Restaurant",
-      discount: "Discount Text",
-      address: "123 Main Street",
-      phone: "(555) 123-4567",
-      time: "9:00 AM - 10:00 PM",
-    },
-    {
-      title: "Tech Solutions Hub",
-      category: "Technology",
-      discount: "Discount",
-      address: "456 Tech Avenue",
-      phone: "(555) 234-5678",
-      time: "8:00 AM - 6:00 PM",
-    },
-    {
-      title: "Green Garden Spa",
-      category: "Health & Beauty",
-      discount: "Discount",
-      address: "789 Wellness Way",
-      phone: "(555) 345-6789",
-      time: "10:00 AM - 8:00 PM",
-    },
-    {
-      title: "Urban Coffee Co.",
-      category: "Café",
-      discount: "Discount",
-      address: "321 Coffee Street",
-      phone: "(555) 456-7890",
-      time: "6:00 AM - 9:00 PM",
-    },
-    {
-      title: "Elite Automotive",
-      category: "Automotive",
-      discount: "Discount",
-      address: "654 Auto Lane",
-      phone: "(555) 567-8901",
-      time: "7:00 AM - 7:00 PM",
-    },
-    {
-      title: "Fashion Forward",
-      category: "Retail",
-      discount: "Discount",
-      address: "987 Style Boulevard",
-      phone: "(555) 678-9012",
-      time: "10:00 AM - 9:00 PM",
-    },
-  ];
+  const [businesses, setBusinesses] = useState<UIBusiness[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  /* ⭐ CALL API */
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      const res = await getFeaturedBusinesses();
+
+      if (res.remote === RemoteStatus.Success) {
+        const mapped = res.data.results.map(mapBusinessToUI as (item: BusinessItem) => UIBusiness);
+        setBusinesses(mapped);
+      } else {
+        console.error("Business API error", res.error);
+      }
+
+      setLoading(false);
+    };
+
+    fetchBusinesses();
+  }, []);
+
+  /* ⭐ LOADING STATE */
+  if (loading) {
+    return (
+      <Typography align="center" sx={{ mt: 5 }}>
+        Loading businesses...
+      </Typography>
+    );
+  }
 
   return (
-    <>
-      <Box className="pageColor" sx={{ py: 5 }}>
-        <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h2">
-            <span
-              style={{
-                background: "none",
-                WebkitBackgroundClip: "unset",
-                WebkitTextFillColor: "#020817",
-                paddingRight: "10px",
-              }}
-            >
-              Explore Local
-            </span>
-            Businesses
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{ color: "#64748B", my: 3, fontSize: "20px" }}
-          >
-            Discover amazing local businesses in your area. From restaurants to
-            services, find <br /> exactly what you need with exclusive member
-            discounts.
-          </Typography>
-        </Box>
-        <Grid container spacing={2}>
-          {cardData.map((item, index) => (
-            <Grid size={{ xs: 12, md: 4 }} key={index}>
-              <Box
-                className="customCardShadow"
-                sx={{ boxShadow: "0px 1px 36.9px 0px #6A6A6A40" }}
-              >
-                {/* Title */}
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Typography variant="h3">{item.title}</Typography>
-                  <CostumeButton className="successBtn">
-                    More details
-                  </CostumeButton>
-                </Box>
+    <Box className="pageColor" sx={{ py: 5 }}>
+      {/* HEADER */}
+      <Box sx={{ textAlign: "center" }}>
+        <Typography variant="h2">
+          <span style={{ WebkitTextFillColor: "#020817", paddingRight: 10 }}>
+            Explore Local
+          </span>
+          Businesses
+        </Typography>
 
-                <Typography variant="h6" color="#64748B" mt={0.3}>
-                  {item.category}
-                </Typography>
-
-                <Typography
-                  variant="h5"
-                  fontSize={"16px"}
-                  color="#020817"
-                  mt={1}
-                >
-                  {item.discount}
-                </Typography>
-
-                {/* Details */}
-                <Box mt={2}>
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    mb={0.6}
-                    gap={1}
-                    color="#64748B"
-                  >
-                    <RoomIcon fontSize="small" />
-                    <Typography variant="h6" color="#64748B">
-                      {item.address}
-                    </Typography>
-                  </Box>
-
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    mb={0.6}
-                    gap={1}
-                    color="#64748B"
-                  >
-                    <LocalPhoneIcon fontSize="small" />
-                    <Typography variant="h6" color="#64748B">
-                      {item.phone}
-                    </Typography>
-                  </Box>
-
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    gap={1}
-                    color="#64748B"
-                  >
-                    <AccessTimeIcon fontSize="small" />
-                    <Typography variant="h6" color="#64748B">
-                      {item.time}
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
+        <Typography variant="h6" sx={{ color: "#64748B", my: 3 }}>
+          Discover amazing local businesses in your area with exclusive discounts.
+        </Typography>
       </Box>
-    </>
+
+      {/* GRID */}
+      <Grid container spacing={2}>
+        {businesses.map((item) => (
+          <Grid size={{ xs: 12, md: 4 }} key={item.id}>
+            <Box className="customCardShadow">
+              <Box display="flex" justifyContent="space-between">
+                <Typography variant="h3">{item.title}</Typography>
+                <CostumeButton className="successBtn">
+                  More details
+                </CostumeButton>
+              </Box>
+
+              <Typography variant="h6" color="#64748B">
+                {item.category}
+              </Typography>
+
+              <Typography variant="h5" fontSize={16} mt={1}>
+                {item.discount}
+              </Typography>
+
+              <Box mt={2}>
+                <InfoRow icon={<RoomIcon fontSize="small" />} text={item.address} />
+                <InfoRow icon={<LocalPhoneIcon fontSize="small" />} text={item.phone} />
+                <InfoRow icon={<AccessTimeIcon fontSize="small" />} text={item.time} />
+              </Box>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   );
 }
+
+/* SMALL HELPER */
+const InfoRow = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
+  <Box display="flex" alignItems="center" gap={1} mb={0.6}>
+    {icon}
+    <Typography variant="h6" color="#64748B">
+      {text}
+    </Typography>
+  </Box>
+);

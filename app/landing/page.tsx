@@ -57,8 +57,9 @@ const Landing = () => {
       if (landingRes.remote === RemoteStatus.Success)
         setLanding(landingRes.data as LandingPageContent);
 
+      //console.log(businessRes.data.results);
       if (businessRes.remote === RemoteStatus.Success)
-        setBusinesses(businessRes.data as BusinessItem[]);
+        setBusinesses(businessRes.data.results);
 
       if (newsRes.remote === RemoteStatus.Success)
         setNews(newsRes.data as NewsItem[]);

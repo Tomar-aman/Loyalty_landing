@@ -10,8 +10,9 @@ import { BusinessItem } from "@/services/types.";
 import { useMemo } from "react";
 import dynamic from "next/dynamic";
 
-/* ---------- MAP (NO SSR) ---------- */
-const BusinessMap = dynamic(() => import("./businessMap"), {
+const BusinessMap = dynamic<{
+  businesses: BusinessItem[];
+}>(() => import("./businessMap"), {
   ssr: false,
 });
 
@@ -22,8 +23,8 @@ interface UIBusiness {
   category: string;
   discount: string;
   address: string;
-  phone: string;
-  time: string;
+  phone_number: string;
+  opening_time: string;
 }
 
 /* ---------- PROPS ---------- */
@@ -41,8 +42,8 @@ const fallbackData: UIBusiness[] = [
     category: "Restaurant",
     discount: "Discount Available",
     address: "123 Main Street",
-    phone: "(555) 123-4567",
-    time: "9:00 AM - 10:00 PM",
+    phone_number: "(555) 123-4567",
+    opening_time: "9:00 AM - 10:00 PM",
   },
 ];
 
@@ -53,8 +54,8 @@ const mapBusinessToUI = (item: BusinessItem): UIBusiness => ({
   category: item.category?.name ?? "Business",
   discount: item.discount_text ?? "Special discounts available",
   address: item.address ?? "Address not available",
-  phone: item.phone ?? "N/A",
-  time:
+  phone_number: item.phone_number ?? "N/A",
+  opening_time:
     item.opening_time && item.closing_time
       ? `${item.opening_time} - ${item.closing_time}`
       : "Timings not available",
@@ -67,11 +68,14 @@ export default function ExploreBusiness({
 }: ExploreBusinessProps) {
   /* ---------- GRID DATA ---------- */
   const cardData: UIBusiness[] = useMemo(() => {
-    if (!Array.isArray(businesses) || businesses.length === 0) {
-      return fallbackData;
-    }
-    return businesses.map(mapBusinessToUI);
-  }, [businesses]);
+  if (!Array.isArray(businesses) || businesses.length === 0) {
+    return fallbackData;
+  }
+
+  // ⭐ show only first 3 businesses
+  return businesses.slice(0, 3).map(mapBusinessToUI);
+
+}, [businesses]);
 
   return (
     <>
@@ -111,14 +115,14 @@ export default function ExploreBusiness({
                     {item.category}
                   </Typography>
 
-                  <Typography variant="h5" fontSize={16} mt={1}>
+                  <Typography variant="h5" fontSize={16} mt={1} color="#020817">
                     {item.discount}
                   </Typography>
 
                   <Box mt={2}>
                     <InfoRow icon={<RoomIcon fontSize="small" />} text={item.address} />
-                    <InfoRow icon={<LocalPhoneIcon fontSize="small" />} text={item.phone} />
-                    <InfoRow icon={<AccessTimeIcon fontSize="small" />} text={item.time} />
+                    <InfoRow icon={<LocalPhoneIcon fontSize="small" />} text={item.phone_number} />
+                    <InfoRow icon={<AccessTimeIcon fontSize="small" />}  text={item.opening_time} />
                   </Box>
                 </Box>
               </Grid>
