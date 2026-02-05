@@ -3,10 +3,70 @@ import { Box, Grid, Typography, FormGroup } from "@mui/material";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import { LabeledInput } from "../custom-input";
 import CostumeButton from "../button";
+import { useState } from "react";
+
+import { submitContactUs } from "../../api/home";
+import { RemoteStatus } from "../../api/types";
 
 export default function GetInTouch() {
+  /* ---------- STATE ---------- */
+  const [form, setForm] = useState({
+    first_name: "",
+    last_name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+
+  /* ---------- HANDLERS ---------- */
+  const handleChange =
+  (key: keyof typeof form) =>
+  (value: any) => {
+    const newValue =
+      typeof value === "string"
+        ? value
+        : value?.target?.value ?? "";
+
+    setForm((prev) => ({ ...prev, [key]: newValue }));
+  };
+
+  const handleSubmit = async () => {
+    console.log(form);
+    if (!form.first_name || !form.subject || !form.email || !form.message) {
+      alert("Please fill required fields ❗");
+      return;
+    }
+    setLoading(true);
+    const res = await submitContactUs({
+      name: `${form.first_name} ${form.last_name}`,
+      email: form.email,
+      subject: form.subject,
+      message: form.message,
+    });
+
+    if (res.remote === RemoteStatus.Success) {
+      alert("Message sent successfully ✅");
+      setForm({
+        first_name: "",
+        last_name: "",
+        email: "",
+        subject: "",
+        message: "",
+      });
+    } else {
+      alert("Failed to send message ❌");
+      console.error(res.error);
+    }
+
+    setLoading(false);
+  };
+
+  /* ---------- UI ---------- */
   return (
     <Box sx={{ px: 10 }}>
+      {/* ---------- HEADER ---------- */}
       <Box sx={{ mb: 3, textAlign: "center" }}>
         <Typography variant="h2">
           <span
@@ -23,9 +83,11 @@ export default function GetInTouch() {
         </Typography>
         <Typography variant="h6" sx={{ color: "#64748B", mt: 1 }}>
           Have questions about our platform? Need help with your advantage card?
-          We're here <br /> to help and would love to hear from you.
+          We&apos;re here <br /> to help and would love to hear from you.
         </Typography>
       </Box>
+
+      {/* ---------- FORM ---------- */}
       <Box className="customCardShadow" sx={{ p: 3 }}>
         {/* Header */}
         <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
@@ -47,78 +109,85 @@ export default function GetInTouch() {
             Send us a message
           </Typography>
         </Box>
+
         <Grid container spacing={1}>
           <Grid size={{ xs: 12, md: 6 }}>
             <FormGroup>
               <LabeledInput
                 label="First Name"
+                name="first_name"
                 placeholder="Enter your First Name"
+                value={form.first_name}
+                onChange={handleChange("first_name")}
               />
             </FormGroup>
           </Grid>
+
           <Grid size={{ xs: 12, md: 6 }}>
             <FormGroup>
               <LabeledInput
-                label="last Name"
-                placeholder="Enter your last Name"
+                label="Last Name"
+                name="last_name"
+                placeholder="Enter your Last Name"
+                value={form.last_name}
+                onChange={handleChange("last_name")}
               />
             </FormGroup>
           </Grid>
-          <Grid size={{ xs: 12, md: 12 }}>
+
+          <Grid size={{ xs: 12 }}>
             <FormGroup>
               <LabeledInput
-                label="email"
+                label="Email"
+                name="email"
                 placeholder="Enter your email address"
+                value={form.email}
+                onChange={handleChange("email")}
               />
             </FormGroup>
           </Grid>
-          <Grid size={{ xs: 12, md: 12 }}>
+
+          <Grid size={{ xs: 12 }}>
             <FormGroup>
-              <LabeledInput label="Subject" placeholder="what is this about?" />
+              <LabeledInput
+                label="Subject"
+                name="subject"
+                placeholder="What is this about?"
+                value={form.subject}
+                onChange={handleChange("subject")}
+              />
             </FormGroup>
           </Grid>
-          <Grid size={{ xs: 12, md: 12 }}>
-            <Typography variant="h6" color="#020817" fontWeight={"600"}>
+
+          <Grid size={{ xs: 12 }}>
+            <Typography variant="h6" color="#020817" fontWeight={600}>
               Message
             </Typography>
             <textarea
               className="textareaNotes"
+              name="message"
               placeholder="Tell us how we can help you..."
-            ></textarea>
+              value={form.message}
+              onChange={handleChange("message")}
+            />
           </Grid>
 
-          {/* reCAPTCHA + Submit Button */}
+          {/* ---------- SUBMIT ---------- */}
           <Grid
-            size={{ xs: 12, md: 12 }}
+            size={{ xs: 12 }}
             sx={{
               mt: 2,
               display: "flex",
-              flexWrap: "wrap",
-              gap: 2,
-              alignItems: "center",
-              justifyContent: "end",
+              justifyContent: "flex-end",
             }}
           >
-            <Box
-              sx={{
-                width: { xs: "100%", md: "50%" },
-                height: "78px",
-                border: "1px solid #E5E7EB",
-                borderRadius: "10px",
-                display: "flex",
-                alignItems: "center",
-                px: 2,
-              }}
+            <CostumeButton
+              className="primaryBtn"
+              onClick={handleSubmit}
+              disabled={loading}
             >
-              <Typography color="text.secondary">
-                I'm not a robot (reCAPTCHA box)
-              </Typography>
-            </Box>
-
-            {/* Send Message Button */}
-            <Box>
-              <CostumeButton className="primaryBtn">Send Message</CostumeButton>
-            </Box>
+              {loading ? "Sending..." : "Send Message"}
+            </CostumeButton>
           </Grid>
         </Grid>
       </Box>

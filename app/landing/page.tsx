@@ -1,4 +1,7 @@
+"use client";
 import { Box, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+
 import Topbanner from "../components/home-comp/topbanner";
 import ExploreBusiness from "../components/home-comp/exploreBusiness";
 import AdvantageCard from "../components/home-comp/advantageCard";
@@ -7,42 +10,120 @@ import HowItWorks from "../components/home-comp/howItWorks";
 import LatestNewsUpdates from "../components/home-comp/latestNewsUpdates";
 import GetInTouch from "../components/home-comp/getInTouch";
 
+import {
+  getLandingPageContent,
+  getFeaturedBusinesses,
+  getNewsItems,
+  getCards,
+  getFaqs,
+} from "../api/home";
+
+import {
+  LandingPageContent,
+  FAQItem,
+  NewsItem,
+  CardPlan,
+  BusinessItem,
+} from "@/services/types.";
+
+import { RemoteStatus } from "../api/types";
+
 const Landing = () => {
+  const [landing, setLanding] = useState<LandingPageContent | null>(null);
+  const [businesses, setBusinesses] = useState<BusinessItem[]>([]);
+  const [news, setNews] = useState<NewsItem[]>([]);
+  const [cards, setCards] = useState<CardPlan[]>([]);
+  const [faqs, setFaqs] = useState<FAQItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAllData = async () => {
+      setLoading(true);
+
+      const [
+        landingRes,
+        businessRes,
+        newsRes,
+        cardRes,
+        faqRes,
+      ] = await Promise.all([
+        getLandingPageContent(),
+        getFeaturedBusinesses(),
+        getNewsItems(),
+        getCards(),
+        getFaqs(),
+      ]);
+
+      if (landingRes.remote === RemoteStatus.Success)
+        setLanding(landingRes.data as LandingPageContent);
+
+      //console.log(businessRes.data.results);
+      if (businessRes.remote === RemoteStatus.Success)
+        setBusinesses(businessRes.data.results);
+
+      if (newsRes.remote === RemoteStatus.Success)
+        setNews(newsRes.data as NewsItem[]);
+
+      if (cardRes.remote === RemoteStatus.Success)
+        setCards(cardRes.data as CardPlan[]);
+
+      if (faqRes.remote === RemoteStatus.Success)
+        setFaqs(faqRes.data as FAQItem[]);
+
+      setLoading(false);
+    };
+
+    fetchAllData();
+  }, []);
+
+  if (loading) {
+    return (
+      <Typography align="center" sx={{ mt: 4 }}>
+        Loading...
+      </Typography>
+    );
+  }
+
+  if (!landing) return null;
+
   return (
     <>
-      <Topbanner />
+      <Topbanner
+        title={landing.banner_title}
+        description={landing.banner_description}
+        image={landing.banner_image}
+      />
+
       <Box className="pageColor">
-        <Box sx={{ textAlign: "center" }}>
-          <Typography variant="h2">
-            <span
-              style={{
-                background: "none",
-                WebkitBackgroundClip: "unset",
-                WebkitTextFillColor: "#020817",
-                paddingRight: "10px",
-              }}
-            >
-              Explore Local
-            </span>
-            Businesses
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{ color: "#64748B", my: 3, fontSize: "20px" }}
-          >
-            Discover amazing local businesses in your area. From restaurants to
-            services, find <br /> exactly what you need with exclusive member
-            discounts.
-          </Typography>
-        </Box>
-        
         <Stack spacing={4}>
-          <ExploreBusiness />
-          <AdvantageCard />
+          <ExploreBusiness
+            title={landing.business_section_title}
+            description={landing.business_section_description}
+            businesses={businesses}
+          />
+
+          <AdvantageCard
+            title={landing.card_section_title}
+            description={landing.card_section_description}
+            image={landing.card_section_image}
+            cards={cards}
+          />
+
           <HowItWorks />
-          <LatestNewsUpdates />
+
+          <LatestNewsUpdates
+            title={landing.news_section_title}
+            description={landing.news_section_description}
+            news={news}
+          />
+
           <GetInTouch />
-          <FrequentlyQuestions />
+
+          <FrequentlyQuestions
+            title={landing.faq_section_title}
+            description={landing.faq_section_description}
+            faqs={faqs}
+          />
         </Stack>
       </Box>
     </>
