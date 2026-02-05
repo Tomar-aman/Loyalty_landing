@@ -7,14 +7,20 @@ import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ClickableBox from "../router";
 import { BusinessItem } from "@/services/types.";
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 import dynamic from "next/dynamic";
 
-const BusinessMap = dynamic<{
+type BusinessMapProps = {
   businesses: BusinessItem[];
-}>(() => import("./businessMap"), {
-  ssr: false,
-});
+};
+
+const BusinessMap = dynamic<BusinessMapProps>(
+  () =>
+    import("./businessMap").then(
+      (mod) => mod.default as FC<BusinessMapProps>
+    ),
+  { ssr: false }
+);
 
 /* ---------- UI TYPE ---------- */
 interface UIBusiness {
@@ -35,17 +41,17 @@ interface ExploreBusinessProps {
 }
 
 /* ---------- FALLBACK ---------- */
-const fallbackData: UIBusiness[] = [
-  {
-    id: "fallback",
-    title: "Bella Vista Restaurant",
-    category: "Restaurant",
-    discount: "Discount Available",
-    address: "123 Main Street",
-    phone_number: "(555) 123-4567",
-    opening_time: "9:00 AM - 10:00 PM",
-  },
-];
+// const fallbackData: UIBusiness[] = [
+//   {
+//     id: "fallback",
+//     title: "Bella Vista Restaurant",
+//     category: "Restaurant",
+//     discount: "Discount Available",
+//     address: "123 Main Street",
+//     phone_number: "(555) 123-4567",
+//     opening_time: "9:00 AM - 10:00 PM",
+//   },
+// ];
 
 /* ---------- MAPPER ---------- */
 const mapBusinessToUI = (item: BusinessItem): UIBusiness => ({
@@ -67,14 +73,10 @@ export default function ExploreBusiness({
   businesses = [],
 }: ExploreBusinessProps) {
   /* ---------- GRID DATA ---------- */
-  const cardData: UIBusiness[] = useMemo(() => {
-  if (!Array.isArray(businesses) || businesses.length === 0) {
-    return fallbackData;
-  }
+const cardData: UIBusiness[] = useMemo(() => {
+  if (!Array.isArray(businesses)) return [];
 
-  // ⭐ show only first 3 businesses
   return businesses.slice(0, 3).map(mapBusinessToUI);
-
 }, [businesses]);
 
   return (
