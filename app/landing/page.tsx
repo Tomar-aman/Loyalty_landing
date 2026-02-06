@@ -89,9 +89,9 @@ const Landing = () => {
   return (
     <>
       <Topbanner
-        title={landing.banner_title}
-        description={landing.banner_description}
-        image={landing.banner_image}
+        banner_title={landing.banner_title}
+        banner_description={landing.banner_description}
+        banner_image={landing.banner_image}
       />
 
       <Box className="pageColor">

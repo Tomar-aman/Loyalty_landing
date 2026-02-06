@@ -99,10 +99,15 @@ export const getCards = async () => {
 
 
 /* ---------- News Articles ---------- */
-export const getNewsItems = async () => {
+export const getNewsItems = async (params?: {
+  page?: number;
+  per_page?: number;
+}) => {
   return api.request({
     url: "/v1/news/articles/",
     method: "GET",
+    params, // 👈 important
     skipAuth: true,
   });
 };
+
