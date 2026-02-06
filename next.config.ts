@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
   },
 
   images: {
+    domains: ["admin.stadtcard.de"], // 👈 add this
     remotePatterns: [
       {
         protocol: "https",

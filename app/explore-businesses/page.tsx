@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { getFeaturedBusinesses } from "../api/home";
 import { RemoteStatus } from "../api/types";
 import { BusinessItem } from "@/services/types.";
+import ClickableBox from "../components/router";
 
 interface UIBusiness {
   id: number;
@@ -94,9 +95,11 @@ export default function ExploreBusiness() {
             <Box className="customCardShadow">
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="h3">{item.title}</Typography>
-                <CostumeButton className="successBtn">
-                  More details
-                </CostumeButton>
+                <ClickableBox nextPageUrl={`/gallery?id=${item.id}`}>
+                      <CostumeButton className="successBtn">
+                        More details
+                      </CostumeButton>
+                    </ClickableBox>
               </Box>
 
               <Typography variant="h6" color="#64748B">

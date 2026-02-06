@@ -24,41 +24,63 @@ export default function LatestNewsUpdates() {
   const [loading, setLoading] = useState(true);
   const [expandedIds, setExpandedIds] = useState<number[]>([]);
 
-  /* ---------- FETCH NEWS ---------- */
-  useEffect(() => {
-    const fetchNews = async () => {
-      const res = await getNewsItems();
+  // 🆕 PAGINATION STATES
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const PER_PAGE = 6;
 
-      if (res.remote === RemoteStatus.Success) {
-        const apiData = (res.data as any)?.results ?? [];
+  /* ---------- FETCH NEWS FUNCTION ---------- */
+  const fetchNews = async (pageNumber = 1, PER_PAGE = 6) => {
+    const res = await getNewsItems({ page: pageNumber, per_page: PER_PAGE });
 
-        const mapped: NewsUI[] = apiData.map((item: NewsItem) => ({
-          id: item.id,
-          title: item.title,
-          fullText: item.content ?? item.description ?? "",
-          date: new Date(item.published_at ?? item.published_at).toLocaleDateString(),
-          read: item.read_time ?? "3 min read",
-        }));
+    if (res.remote === RemoteStatus.Success) {
+      const apiData = (res.data as any)?.results ?? [];
 
+      const mapped: NewsUI[] = apiData.map((item: NewsItem) => ({
+        id: item.id,
+        title: item.title,
+        fullText: item.content ?? item.description ?? "",
+        date: new Date(item.published_at).toLocaleDateString(),
+        read: item.read_time ?? "3 min read",
+      }));
+
+      // first page → replace
+      if (pageNumber === 1) {
         setNews(mapped);
+      } 
+      // next pages → append
+      else {
+        setNews(prev => [...prev, ...mapped]);
       }
 
-      setLoading(false);
-    };
+      // stop pagination if no more records
+      if (apiData.length < PER_PAGE) {
+        setHasMore(false);
+      }
+    }
 
-    fetchNews();
+    setLoading(false);
+  };
+
+  /* ---------- FIRST LOAD ---------- */
+  useEffect(() => {
+    fetchNews(1);
   }, []);
 
-  /* ---------- TOGGLE READ MORE ---------- */
+  /* ---------- LOAD MORE ---------- */
+  const loadMore = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    fetchNews(nextPage);
+  };
+
+  /* ---------- READ MORE TOGGLE ---------- */
   const toggleReadMore = (id: number) => {
-    setExpandedIds((prev) =>
-      prev.includes(id)
-        ? prev.filter((item) => item !== id)
-        : [...prev, id]
+    setExpandedIds(prev =>
+      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
     );
   };
 
-  /* ---------- HELPERS ---------- */
   const trimText = (text: string) =>
     text.length > 200 ? text.slice(0, 200) + "..." : text;
 
@@ -66,7 +88,7 @@ export default function LatestNewsUpdates() {
 
   return (
     <Box className="pageColor">
-      {/* ---------- HEADER ---------- */}
+      {/* HEADER */}
       <Box sx={{ mb: 3, textAlign: "center" }}>
         <Typography variant="h2">
           <span style={{ WebkitTextFillColor: "#020817", paddingRight: 10 }}>
@@ -80,7 +102,7 @@ export default function LatestNewsUpdates() {
         </Typography>
       </Box>
 
-      {/* ---------- NEWS GRID ---------- */}
+      {/* NEWS GRID */}
       <Grid container spacing={3}>
         {news.map((item) => {
           const expanded = expandedIds.includes(item.id);
@@ -88,35 +110,23 @@ export default function LatestNewsUpdates() {
           return (
             <Grid size={{ xs: 12, md: 6 }} key={item.id}>
               <Box className="customCard" sx={{ border: "1px solid #828282", p: 3 }}>
-                {/* TITLE */}
                 <Typography variant="h4" sx={{ mb: 1 }}>
                   {item.title}
                 </Typography>
 
-                {/* DESCRIPTION */}
-                <Typography
-                  variant="h6"
-                  sx={{ color: "#64748B", mb: 2, fontSize: 16 }}
-                >
+                <Typography variant="h6" sx={{ color: "#64748B", mb: 2, fontSize: 16 }}>
                   {expanded ? item.fullText : trimText(item.fullText)}
                 </Typography>
 
-                {/* META + READ MORE */}
                 <Box display="flex" justifyContent="space-between" mt={3}>
                   <Box display="flex" gap={2}>
                     <Meta icon={<CalendarTodayIcon />} text={item.date} />
                     <Meta icon={<AccessTimeIcon />} text={item.read} />
                   </Box>
 
-                  {/* READ MORE TOGGLE */}
                   <Box
                     onClick={() => toggleReadMore(item.id)}
-                    sx={{
-                      display: "flex",
-                      gap: 0.5,
-                      fontWeight: 600,
-                      cursor: "pointer",
-                    }}
+                    sx={{ display: "flex", gap: 0.5, fontWeight: 600, cursor: "pointer" }}
                   >
                     {expanded ? "Read Less" : "Read More"}
                     <ArrowForwardIcon fontSize="small" />
@@ -128,17 +138,19 @@ export default function LatestNewsUpdates() {
         })}
       </Grid>
 
-      {/* ---------- VIEW ALL BUTTON ---------- */}
+      {/* LOAD MORE BUTTON */}
       <Box textAlign="center" mt={4}>
-        <CostumeButton className="primaryBtn">
-          View all
-        </CostumeButton>
+        {hasMore && (
+          <CostumeButton className="primaryBtn" onClick={loadMore}>
+            Load More
+          </CostumeButton>
+        )}
       </Box>
     </Box>
   );
 }
 
-/* ---------- META COMPONENT ---------- */
+/* META COMPONENT */
 const Meta = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
   <Box display="flex" alignItems="center" gap={0.6}>
     {icon}

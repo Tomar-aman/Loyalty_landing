@@ -106,7 +106,7 @@ const cardData: UIBusiness[] = useMemo(() => {
                 >
                   <Box display="flex" justifyContent="space-between">
                     <Typography variant="h3">{item.title}</Typography>
-                    <ClickableBox nextPageUrl="/gallery">
+                    <ClickableBox nextPageUrl={`/gallery?id=${item.id}`}>
                       <CostumeButton className="successBtn">
                         More details
                       </CostumeButton>

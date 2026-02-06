@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { getBusinessDetails } from "../api/home";
 import { RemoteStatus } from "../api/types";
+import { useSearchParams } from "next/navigation";
 
 const ImageGallery = dynamic(
   () => import("../components/gallery-comp/imageGallery"),
@@ -21,19 +22,24 @@ const BusinessMap = dynamic(
   { ssr: false }
 );
 
-export default function BusinessDetails({ params }: any) {
+export default function BusinessDetails() {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id"); // 👈 from ?id=3
+
   const [business, setBusiness] = useState<any>(null);
 
-  /* ---------------- FETCH BUSINESS ---------------- */
   useEffect(() => {
+    if (!id) return;
+
     const fetchData = async () => {
-      const res = await getBusinessDetails(params.id);
+      const res = await getBusinessDetails(id);
       if (res.remote === RemoteStatus.Success) {
         setBusiness(res.data);
       }
     };
+
     fetchData();
-  }, [params.id]);
+  }, [id]);
 
   if (!business) return null;
 

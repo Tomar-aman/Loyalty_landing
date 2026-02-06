@@ -5,15 +5,15 @@ import IMAGES from "@/app/assets/images";
 import SVGICON from "@/app/assets/svg/icon";
 
 interface TopBannerProps {
-  title?: string;
-  description?: string;
-  image?: string | null;
+  banner_title?: string;
+  banner_description?: string;
+  banner_image?: string | null;
 }
 
 export default function Topbanner({
-  title,
-  description,
-  image,
+  banner_title,
+  banner_description,
+  banner_image,
 }: TopBannerProps) {
   return (
     <Box
@@ -34,7 +34,7 @@ export default function Topbanner({
         <Grid size={{ xs: 12, md: 6 }}>
           <Stack rowGap={3}>
             <Typography variant="h1">
-              {title ?? (
+              {banner_title ?? (
                 <>
                   The only app you need <br />
                   <span
@@ -51,8 +51,7 @@ export default function Topbanner({
             </Typography>
 
             <Typography variant="h6">
-              {description ??
-                "Discover coupons and deals designed to match your shopping needs, helping you save more every day."}
+              {banner_description || "Discover coupons and deals designed to match your shopping needs, helping you save more every day."}
             </Typography>
 
             <CostumeButton
@@ -105,11 +104,12 @@ export default function Topbanner({
         {/* RIGHT IMAGE */}
         <Grid size={{ xs: 12, md: 6 }}>
           <Image
-            src={image ?? IMAGES.Homebanner}
+            src={banner_image ? banner_image : IMAGES.Homebanner}
             alt="Home Banner"
             width={500}
             height={500}
             style={{ borderRadius: "100%" }}
+            unoptimized
           />
         </Grid>
       </Grid>
