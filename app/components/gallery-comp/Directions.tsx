@@ -47,7 +47,21 @@ export default function Directions({ business }: DirectionsProps) {
               <Box sx={{ color:"#7C3BED" }}>{item.icon}</Box>
               <Box>
                 <Typography fontWeight={600}>{item.title}</Typography>
-                <Typography color="#7C3BED">{item.value}</Typography>
+                <Typography
+                  component="a"
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    color: "#7C3BED",
+                    textDecoration: "none",
+                    cursor: "pointer",
+                    "&:hover": { textDecoration: "underline" },
+                    wordBreak: "break-word",
+                  }}
+                >
+                  {item.value}
+                </Typography>
               </Box>
             </Box>
           </Grid>

@@ -77,7 +77,7 @@ export default function LatestNewsUpdates({
   };
 
   return (
-    <Box sx={{ mt: 8 }}>
+    <Box sx={{ mt: 8 }} id="news">
       {/* ---------- HEADER ---------- */}
       <Box sx={{ mb: 3, textAlign: "center" }}>
         <Typography variant="h2">

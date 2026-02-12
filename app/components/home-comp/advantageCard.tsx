@@ -21,7 +21,7 @@ export default function AdvantageCard({
   cards = [],
 }: AdvantageCardProps) {
   return (
-    <Box>
+    <Box id="cards">
       <Grid container spacing={4}>
         {/* ---------- LEFT SECTION ---------- */}
         <Grid size={{ xs: 12, md: 6 }}>
@@ -97,6 +97,7 @@ export default function AdvantageCard({
                 popular={card.is_popular || index === 1}
                 buttonText={`Activate ${card.name}`}
                 variant={card.is_popular ? "primaryBtn" : "outlineBtn"}
+                
               />
             ))
           ) : (
@@ -232,6 +233,16 @@ const PlanCard = ({
       ))}
     </Box>
 
-    <CostumeButton className={variant}>{buttonText}</CostumeButton>
+    <CostumeButton
+  className={variant}
+  onClick={() => {
+    const footer = document.getElementById("footer");
+    if (footer) {
+      footer.scrollIntoView({ behavior: "smooth" });
+    }
+  }}
+>
+  {buttonText}
+</CostumeButton>
   </Box>
 );
