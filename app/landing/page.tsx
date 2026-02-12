@@ -117,7 +117,10 @@ const Landing = () => {
             news={news}
           />
 
-          <GetInTouch />
+          <GetInTouch 
+            title={landing.touch_section_title}
+            description={landing.touch_section_description}
+          />
 
           <FrequentlyQuestions
             title={landing.faq_section_title}

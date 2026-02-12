@@ -58,6 +58,10 @@ export default function Topbanner({
               className="primaryBtn"
               stylesRest={{ width: "fit-content !important" }}
               endIcon={<SVGICON.Arrowup />}
+              onClick={() => {
+                const footer = document.getElementById("footer");
+                footer?.scrollIntoView({ behavior: "smooth" });
+              }}
             >
               Start Planning
             </CostumeButton>

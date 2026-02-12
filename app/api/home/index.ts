@@ -87,6 +87,20 @@ export const getFooterDetails = async () => {
   });
 };
 
+export const getSocialMedia = async () => {
+  return api.request({
+    url: "/v1/contact/social-media-links/",
+    method: "GET",
+    skipAuth: true,
+  });
+};
+export const getAppDetails = async () => {
+  return api.request({
+    url: "/v1/contact/app-download-links/",
+    method: "GET",
+    skipAuth: true,
+  });
+};
 
 /* ---------- Advantage Cards ---------- */
 export const getCards = async () => {
