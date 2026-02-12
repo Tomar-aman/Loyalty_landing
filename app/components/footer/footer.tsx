@@ -67,77 +67,142 @@ export default function Footer() {
   if (!footer) return null;
 
   return (
-    <Box component="footer" sx={{ background:"#fff", borderTop:"1px solid #eee", p:4 }}>
+    <Box
+      component="footer"
+      sx={{ background: "#fff", borderTop: "1px solid #eee", p: 4 }}
+    >
       <Grid container spacing={4}>
-        
         {/* ---------------- COLUMN 1 ---------------- */}
-        <Grid size={{ xs:12, md:3 }}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <ClickableBox nextPageUrl="/">
-            <Typography variant="h2" sx={{ fontSize:24, mb:2 }}>
+            <Typography variant="h2" sx={{ fontSize: 24, mb: 2 }}>
               BusinessConnect
             </Typography>
           </ClickableBox>
-           <Typography variant="h6" sx={{ color: "#64748B", mb: 2 }}>
+          <Typography variant="h6" sx={{ color: "#64748B", mb: 2 }}>
             The ultimate local business directory platform connecting
             communities with exclusive advantage cards and amazing deals.
           </Typography>
 
-
           {/* ADDRESS */}
-          <Stack direction="row" spacing={1} mb={1} sx={{ color: "#020817" }}>
-            <SVGICON.Location />
+          <Stack direction="row" spacing={1} alignItems="flex-start">
+            <Box
+              sx={{
+                width: 24,
+                minWidth: 24,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <SVGICON.Location />
+            </Box>
+
             <Typography variant="h6" sx={{ color: "#020817" }}>
               {formatAddress(footer.address)}
             </Typography>
           </Stack>
 
           {/* PHONE */}
-          <Stack direction="row" spacing={1} mb={1} sx={{ color: "#020817" }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            my={1}
+            alignItems="center"
+            sx={{ color: "#020817" }}
+          >
             <SVGICON.Call />
-            <Typography variant="h6" component="a" href={`tel:${footer.phone}`} sx={{ color: "#020817" }}>
+            <Typography
+              variant="h6"
+              component="a"
+              href={`tel:${footer.phone}`}
+              sx={{
+                color: "#020817",
+                textDecoration: "none",
+                m: 0,
+              }}
+            >
               {footer.phone}
             </Typography>
           </Stack>
 
           {/* EMAIL */}
-          <Stack direction="row" spacing={1} mb={2} sx={{ color: "#020817" }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            mb={2}
+            alignItems="center"
+            sx={{ color: "#020817" }}
+          >
             <SVGICON.Message />
-            <Typography variant="h6" component="a" href={`mailto:${footer.email}`} sx={{ color: "#020817" }}>
+            <Typography
+              variant="h6"
+              component="a"
+              href={`mailto:${footer.email}`}
+              sx={{
+                color: "#020817",
+                textDecoration: "none",
+                m: 0,
+              }}
+            >
               {footer.email}
             </Typography>
           </Stack>
 
           {/* SOCIAL LINKS */}
-          <Box sx={{ display:"flex", gap:1 }} >
-            {footer.facebook && <a href={footer.facebook} target="_blank" ><SVGICON.Fb/></a>}
-            {footer.instagram && <a href={footer.instagram} target="_blank"><SVGICON.Insta/></a>}
-            {footer.twitter && <a href={footer.twitter} target="_blank"><SVGICON.X/></a>}
-            {footer.linkedin && <a href={footer.linkedin} target="_blank"><SVGICON.In/></a>}
+          <Box sx={{ display: "flex", gap: 1 }}>
+            {footer.facebook && (
+              <a href={footer.facebook} target="_blank">
+                <SVGICON.Fb />
+              </a>
+            )}
+            {footer.instagram && (
+              <a href={footer.instagram} target="_blank">
+                <SVGICON.Insta />
+              </a>
+            )}
+            {footer.twitter && (
+              <a href={footer.twitter} target="_blank">
+                <SVGICON.X />
+              </a>
+            )}
+            {footer.linkedin && (
+              <a href={footer.linkedin} target="_blank">
+                <SVGICON.In />
+              </a>
+            )}
           </Box>
         </Grid>
 
         {/* ---------------- COLUMN 2 ---------------- */}
-        <Grid size={{ xs:12, md:3 }}>
-          <Typography variant="h3" mb={2}>Quick Links</Typography>
-          {["About","Businesses","Cards","News","Contact"].map(item=>(
-            <ClickableBox key={item} style={{ color:"#64748B", marginBottom:10 }}>
+        <Grid size={{ xs: 12, md: 3 }}>
+          <Typography variant="h3" mb={2}>
+            Quick Links
+          </Typography>
+          {["About", "Businesses", "Cards", "News", "Contact"].map((item) => (
+            <ClickableBox
+              key={item}
+              style={{ color: "#64748B", marginBottom: 10 }}
+            >
               {item}
             </ClickableBox>
           ))}
         </Grid>
 
         {/* ---------------- COLUMN 3 ---------------- */}
-        <Grid size={{ xs:12, md:3 }}>
-          <Typography variant="h3" mb={2}>For Businesses</Typography>
-          {["Join Network","Dashboard","Pricing","Support"].map(item=>(
-            <Typography key={item} sx={{ color:"#64748B", mb:1 }}>
+        <Grid size={{ xs: 12, md: 3 }}>
+          <Typography variant="h3" mb={2}>
+            For Businesses
+          </Typography>
+          {["Join Network", "Dashboard", "Pricing", "Support"].map((item) => (
+            <Typography key={item} sx={{ color: "#64748B", mb: 1 }}>
               {item}
             </Typography>
           ))}
         </Grid>
 
         {/* ---------------- COLUMN 4 (NEWSLETTER) ---------------- */}
-        <Grid size={{ xs:12, md:3 }}>
+        <Grid size={{ xs: 12, md: 3 }}>
           <Typography variant="h3" sx={{ mb: 2 }}>
             Get The App
           </Typography>
@@ -188,8 +253,13 @@ export default function Footer() {
             </Stack>
           </Box>
 
-          <Typography variant="h6" fontWeight={600} sx={{ color: "#020817" }}>Stay Updated</Typography>
-          <Typography variant="h6" sx={{ fontSize:14, color:"#64748B", my:1 }}>
+          <Typography variant="h6" fontWeight={600} sx={{ color: "#020817" }}>
+            Stay Updated
+          </Typography>
+          <Typography
+            variant="h6"
+            sx={{ fontSize: 14, color: "#64748B", my: 1 }}
+          >
             Get latest news & offers
           </Typography>
 
@@ -197,12 +267,12 @@ export default function Footer() {
             <LabeledInput
               placeholder="Enter Email"
               value={email}
-              onChange={(e:any)=>setEmail(e.target.value)}
+              onChange={(e: any) => setEmail(e.target.value)}
             />
 
             <Box
               onClick={handleSubscribe}
-              sx={{ cursor:"pointer", opacity: loading ? 0.5 : 1 }}
+              sx={{ cursor: "pointer", opacity: loading ? 0.5 : 1 }}
             >
               <SVGICON.Arrow />
             </Box>
@@ -210,7 +280,7 @@ export default function Footer() {
 
           {/* SUCCESS / ERROR MESSAGE */}
           {message && (
-            <Typography sx={{ fontSize:13, mt:1, color:"#64748B" }}>
+            <Typography sx={{ fontSize: 13, mt: 1, color: "#64748B" }}>
               {message}
             </Typography>
           )}
@@ -255,7 +325,6 @@ export default function Footer() {
             Accessibility
           </ClickableBox>
         </Box>
-
       </Box>
     </Box>
   );

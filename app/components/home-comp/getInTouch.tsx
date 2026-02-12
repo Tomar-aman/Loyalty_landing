@@ -159,8 +159,8 @@ export default function GetInTouch() {
             </FormGroup>
           </Grid>
 
-          <Grid size={{ xs: 12 }}>
-            <Typography variant="h6" color="#020817" fontWeight={600}>
+          <Grid size={{ xs: 12 }} mt={2}>
+            <Typography variant="h6" color="#020817" fontWeight={600} mb={1}>
               Message
             </Typography>
             <textarea
