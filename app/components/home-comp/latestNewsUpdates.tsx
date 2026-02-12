@@ -23,9 +23,11 @@ interface NewsUI {
 interface LatestNewsUpdatesProps {
   title?: string;
   description?: string;
-  news?: {
-    results?: NewsItem[];
-  } | NewsItem[];
+  news?:
+    | {
+        results?: NewsItem[];
+      }
+    | NewsItem[];
 }
 
 export default function LatestNewsUpdates({
@@ -36,7 +38,7 @@ export default function LatestNewsUpdates({
   /* ---------- NORMALIZE DATA ---------- */
   const newsArray: NewsItem[] = Array.isArray(news)
     ? news
-    : news?.results ?? [];
+    : (news?.results ?? []);
 
   const newsData: NewsUI[] = useMemo(
     () =>
@@ -48,7 +50,7 @@ export default function LatestNewsUpdates({
           : "",
         read: item.read_time ?? "3 min read",
       })),
-    [newsArray]
+    [newsArray],
   );
 
   /* ---------- SUBSCRIBE ---------- */
@@ -106,16 +108,19 @@ export default function LatestNewsUpdates({
       <Grid container spacing={3}>
         {newsData.map((item, index) => (
           <Grid size={{ xs: 12, md: 6 }} key={index}>
-            <Box className="customCard" sx={{ border: "1px solid #828282", p: 3 }}>
+            <Box
+              className="customCard"
+              sx={{ border: "1px solid #828282", p: 3 }}
+            >
               <Typography variant="h4">{item.title}</Typography>
 
               <Typography
                 variant="h6"
                 sx={{ color: "#64748B", my: 2, fontSize: "16px" }}
               >
-               {item.content.length > 160
-                ? `${item.content.slice(0, 160)}...`
-                : item.content}
+                {item.content.length > 160
+                  ? `${item.content.slice(0, 160)}...`
+                  : item.content}
               </Typography>
 
               <Box display="flex" justifyContent="space-between">
@@ -135,7 +140,7 @@ export default function LatestNewsUpdates({
         ))}
       </Grid>
 
-       {/* VIEW ALL BUTTON */}
+      {/* VIEW ALL BUTTON */}
       <Box sx={{ textAlign: "center", mt: 4 }}>
         <CostumeButton
           className="primaryBtn"
@@ -173,6 +178,11 @@ export default function LatestNewsUpdates({
                   placeholder="Enter your email address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  restStyle={{
+                    height: "50px !important",
+                    width: "300px !important",
+                  }}
+                  placeholderStyle={{ color: "#000 !important" }}
                 />
               </FormGroup>
 
@@ -192,13 +202,7 @@ export default function LatestNewsUpdates({
 }
 
 /* ---------- HELPER ---------- */
-const MetaItem = ({
-  icon,
-  text,
-}: {
-  icon: React.ReactNode;
-  text: string;
-}) => (
+const MetaItem = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
   <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
     {icon}
     <Typography sx={{ fontSize: 13, color: "#64748B" }}>{text}</Typography>

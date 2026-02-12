@@ -112,7 +112,7 @@ export default function Topbanner({
             alt="Home Banner"
             width={500}
             height={500}
-            style={{ borderRadius: "100%" }}
+            style={{ borderRadius: "100%",objectFit: "cover" }}
             unoptimized
           />
         </Grid>

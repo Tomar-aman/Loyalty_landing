@@ -246,7 +246,7 @@ export default function Footer() {
             <LabeledInput
               placeholder="Enter Email"
               value={email}
-              onChange={(e:any)=>setEmail(e.target.value)}
+              onChange={(e: any) => setEmail(e.target.value)}
             />
             <Box onClick={handleSubscribe} sx={{ cursor:"pointer" }}>
               <SVGICON.Arrow/>
@@ -296,7 +296,6 @@ export default function Footer() {
             Accessibility
           </ClickableBox> */}
         </Box>
-
       </Box>
     </Box>
   );
