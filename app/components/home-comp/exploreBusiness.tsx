@@ -81,7 +81,7 @@ export default function ExploreBusiness({
     <>
       {/* ---------- SECTION HEADER ---------- */}
       {(title || description) && (
-        <Box textAlign="center">
+        <Box textAlign="center" id="business">
           {title && <Typography variant="h2">{title}</Typography>}
           {description && (
             <Typography variant="h6" color="#64748B" mt={2}>

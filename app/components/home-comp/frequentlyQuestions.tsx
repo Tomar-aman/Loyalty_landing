@@ -47,7 +47,7 @@ export default function FrequentlyQuestions({
   const faqData = faqs && faqs.length > 0 ? faqs : fallbackFaqs;
 
   return (
-    <Box>
+    <Box id="faq">
       {/* ---------- SECTION HEADER ---------- */}
       <Typography variant="h2" sx={{ fontSize: "30px", textAlign: "center" }}>
         {title ? (

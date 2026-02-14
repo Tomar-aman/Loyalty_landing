@@ -8,7 +8,15 @@ import { useState } from "react";
 import { submitContactUs } from "../../api/home";
 import { RemoteStatus } from "../../api/types";
 
-export default function GetInTouch() {
+interface GetInTouchProps {
+  title?: string | null;
+  description?: string | null;
+}
+
+export default function GetInTouch({
+  title,
+  description,
+}: GetInTouchProps) {
   /* ---------- STATE ---------- */
   const [form, setForm] = useState({
     first_name: "",
@@ -65,26 +73,30 @@ export default function GetInTouch() {
 
   /* ---------- UI ---------- */
   return (
-    <Box sx={{ px: 10 }}>
+    <Box sx={{ px: 10 }} id="getintouch">
       {/* ---------- HEADER ---------- */}
       <Box sx={{ mb: 3, textAlign: "center" }}>
         <Typography variant="h2">
-          <span
-            style={{
-              background: "none",
-              WebkitBackgroundClip: "unset",
-              WebkitTextFillColor: "#020817",
-              paddingRight: "10px",
-            }}
-          >
-            Get In
-          </span>
-          Touch
+          {title || (
+            <>
+              <span
+                style={{
+                  background: "none",
+                  WebkitBackgroundClip: "unset",
+                  WebkitTextFillColor: "#020817",
+                  paddingRight: "10px",
+                }}
+              >
+                Get In
+              </span>
+              Touch
+            </>
+          )}
         </Typography>
-        <Typography variant="h6" sx={{ color: "#64748B", mt: 1 }}>
-          Have questions about our platform? Need help with your advantage card?
-          We&apos;re here <br /> to help and would love to hear from you.
-        </Typography>
+       <Typography variant="h6" sx={{ color: "#64748B", mt: 1 }}>
+        {description ||
+          "Have questions about our platform? Need help with your advantage card? We're here to help and would love to hear from you."}
+      </Typography>
       </Box>
 
       {/* ---------- FORM ---------- */}
