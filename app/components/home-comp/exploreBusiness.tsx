@@ -1,5 +1,5 @@
 "use client";
-import { Grid, Typography, Box } from "@mui/material";
+import { Grid, Typography, Box, Stack } from "@mui/material";
 import CostumeButton from "../button";
 import CustomTabs from "../tabs/tab";
 import RoomIcon from "@mui/icons-material/Room";
@@ -9,6 +9,7 @@ import ClickableBox from "../router";
 import { BusinessItem } from "@/services/types.";
 import { FC, useMemo } from "react";
 import dynamic from "next/dynamic";
+import WordLimitText from "../wordLimit/limit";
 
 type BusinessMapProps = {
   businesses: BusinessItem[];
@@ -123,18 +124,53 @@ export default function ExploreBusiness({
                   </Typography>
 
                   <Box mt={2}>
-                    <InfoRow
-                      icon={<RoomIcon fontSize="small" />}
-                      text={item.address}
-                    />
-                    <InfoRow
-                      icon={<LocalPhoneIcon fontSize="small" />}
-                      text={item.phone_number}
-                    />
-                    <InfoRow
-                      icon={<AccessTimeIcon fontSize="small" />}
-                      text={item.opening_time}
-                    />
+                    <Stack rowGap={1}>
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        alignItems={"flex-start"}
+                      >
+                        <RoomIcon
+                          fontSize="small"
+                          sx={{
+                            color: "#64748B",
+                            position: "relative",
+                            top: 4,
+                          }}
+                        />
+                        <Typography variant="h6" sx={{ color: "#64748B" }}>
+                          <WordLimitText text={item.address} wordLimit={12} />
+                        </Typography>
+                      </Stack>
+
+                      <Stack direction="row" spacing={1}>
+                        <LocalPhoneIcon
+                          fontSize="small"
+                          sx={{
+                            color: "#64748B",
+                            position: "relative",
+                            top: 4,
+                          }}
+                        />
+                        <Typography variant="h6" sx={{ color: "#64748B" }}>
+                          {item.phone_number}
+                        </Typography>
+                      </Stack>
+
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <AccessTimeIcon
+                          fontSize="small"
+                          sx={{
+                            color: "#64748B",
+                            position: "relative",
+                            top: 3,
+                          }}
+                        />
+                        <Typography variant="h6" sx={{ color: "#64748B" }}>
+                          {item.opening_time}
+                        </Typography>
+                      </Stack>
+                    </Stack>
                   </Box>
                 </Box>
               </Grid>

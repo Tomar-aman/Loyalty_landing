@@ -1,5 +1,5 @@
 "use client";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -47,10 +47,10 @@ export default function LatestNewsUpdates() {
       // first page → replace
       if (pageNumber === 1) {
         setNews(mapped);
-      } 
+      }
       // next pages → append
       else {
-        setNews(prev => [...prev, ...mapped]);
+        setNews((prev) => [...prev, ...mapped]);
       }
 
       // stop pagination if no more records
@@ -76,8 +76,8 @@ export default function LatestNewsUpdates() {
 
   /* ---------- READ MORE TOGGLE ---------- */
   const toggleReadMore = (id: number) => {
-    setExpandedIds(prev =>
-      prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    setExpandedIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     );
   };
 
@@ -98,7 +98,8 @@ export default function LatestNewsUpdates() {
         </Typography>
 
         <Typography variant="h6" sx={{ color: "#64748B", mt: 1 }}>
-          Stay informed about new partnerships, exclusive promotions and updates.
+          Stay informed about new partnerships, exclusive promotions and
+          updates.
         </Typography>
       </Box>
 
@@ -109,24 +110,67 @@ export default function LatestNewsUpdates() {
 
           return (
             <Grid size={{ xs: 12, md: 6 }} key={item.id}>
-              <Box className="customCard" sx={{ border: "1px solid #828282", p: 3 }}>
+              <Box
+                className="customCard"
+                sx={{ border: "1px solid #828282", p: 3 }}
+              >
                 <Typography variant="h4" sx={{ mb: 1 }}>
                   {item.title}
                 </Typography>
 
-                <Typography variant="h6" sx={{ color: "#64748B", mb: 2, fontSize: 16 }}>
+                <Typography
+                  variant="h6"
+                  sx={{ color: "#64748B", mb: 2, fontSize: 16 }}
+                >
                   {expanded ? item.fullText : trimText(item.fullText)}
                 </Typography>
 
                 <Box display="flex" justifyContent="space-between" mt={3}>
-                  <Box display="flex" gap={2}>
-                    <Meta icon={<CalendarTodayIcon />} text={item.date} />
-                    <Meta icon={<AccessTimeIcon />} text={item.read} />
-                  </Box>
+                  <Stack direction={"row"} spacing={1}>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      alignItems={"flex-start"}
+                    >
+                      <CalendarTodayIcon
+                        fontSize="small"
+                        sx={{
+                          color: "#64748B",
+                          position: "relative",
+                          top: 4,
+                        }}
+                      />
+                      <Typography variant="h6" sx={{ color: "#64748B" }}>
+                        {item.date}
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      alignItems={"flex-start"}
+                    >
+                      <AccessTimeIcon
+                        fontSize="small"
+                        sx={{
+                          color: "#64748B",
+                          position: "relative",
+                          top: 4,
+                        }}
+                      />
+                      <Typography variant="h6" sx={{ color: "#64748B" }}>
+                        {item.read}
+                      </Typography>
+                    </Stack>
+                  </Stack>
 
                   <Box
                     onClick={() => toggleReadMore(item.id)}
-                    sx={{ display: "flex", gap: 0.5, fontWeight: 600, cursor: "pointer" }}
+                    sx={{
+                      display: "flex",
+                      gap: 0.5,
+                      fontWeight: 600,
+                      cursor: "pointer",
+                    }}
                   >
                     {expanded ? "Read Less" : "Read More"}
                     <ArrowForwardIcon fontSize="small" />
