@@ -16,10 +16,8 @@ type BusinessMapProps = {
 
 const BusinessMap = dynamic<BusinessMapProps>(
   () =>
-    import("./businessMap").then(
-      (mod) => mod.default as FC<BusinessMapProps>
-    ),
-  { ssr: false }
+    import("./businessMap").then((mod) => mod.default as FC<BusinessMapProps>),
+  { ssr: false },
 );
 
 /* ---------- UI TYPE ---------- */
@@ -73,11 +71,11 @@ export default function ExploreBusiness({
   businesses = [],
 }: ExploreBusinessProps) {
   /* ---------- GRID DATA ---------- */
-const cardData: UIBusiness[] = useMemo(() => {
-  if (!Array.isArray(businesses)) return [];
+  const cardData: UIBusiness[] = useMemo(() => {
+    if (!Array.isArray(businesses)) return [];
 
-  return businesses.slice(0, 3).map(mapBusinessToUI);
-}, [businesses]);
+    return businesses.slice(0, 3).map(mapBusinessToUI);
+  }, [businesses]);
 
   return (
     <>
@@ -102,7 +100,10 @@ const cardData: UIBusiness[] = useMemo(() => {
               <Grid size={{ xs: 12, md: 4 }} key={item.id}>
                 <Box
                   className="customCardShadow"
-                  sx={{ boxShadow: "0px 1px 36.9px 0px #6A6A6A40" }}
+                  sx={{
+                    boxShadow: "0px 1px 36.9px 0px #6A6A6A40",
+                    minHeight: 250,
+                  }}
                 >
                   <Box display="flex" justifyContent="space-between">
                     <Typography variant="h3">{item.title}</Typography>
@@ -122,9 +123,18 @@ const cardData: UIBusiness[] = useMemo(() => {
                   </Typography>
 
                   <Box mt={2}>
-                    <InfoRow icon={<RoomIcon fontSize="small" />} text={item.address} />
-                    <InfoRow icon={<LocalPhoneIcon fontSize="small" />} text={item.phone_number} />
-                    <InfoRow icon={<AccessTimeIcon fontSize="small" />}  text={item.opening_time} />
+                    <InfoRow
+                      icon={<RoomIcon fontSize="small" />}
+                      text={item.address}
+                    />
+                    <InfoRow
+                      icon={<LocalPhoneIcon fontSize="small" />}
+                      text={item.phone_number}
+                    />
+                    <InfoRow
+                      icon={<AccessTimeIcon fontSize="small" />}
+                      text={item.opening_time}
+                    />
                   </Box>
                 </Box>
               </Grid>
@@ -157,13 +167,7 @@ const cardData: UIBusiness[] = useMemo(() => {
 }
 
 /* ---------- HELPER ---------- */
-const InfoRow = ({
-  icon,
-  text,
-}: {
-  icon: React.ReactNode;
-  text: string;
-}) => (
+const InfoRow = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
   <Box display="flex" alignItems="center" gap={1} mb={0.6} color="#64748B">
     {icon}
     <Typography variant="h6" color="#64748B">
