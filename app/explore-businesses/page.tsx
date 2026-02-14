@@ -1,6 +1,6 @@
 "use client";
 
-import { Grid, Typography, Box } from "@mui/material";
+import { Grid, Typography, Box, Stack } from "@mui/material";
 import RoomIcon from "@mui/icons-material/Room";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -11,6 +11,7 @@ import { getFeaturedBusinesses } from "../api/home";
 import { RemoteStatus } from "../api/types";
 import { BusinessItem } from "@/services/types.";
 import ClickableBox from "../components/router";
+import WordLimitText from "../components/wordLimit/limit";
 
 interface UIBusiness {
   id: number;
@@ -51,7 +52,9 @@ export default function ExploreBusiness() {
       const res = await getFeaturedBusinesses();
 
       if (res.remote === RemoteStatus.Success) {
-        const mapped = res.data.results.map(mapBusinessToUI as (item: BusinessItem) => UIBusiness);
+        const mapped = res.data.results.map(
+          mapBusinessToUI as (item: BusinessItem) => UIBusiness,
+        );
         setBusinesses(mapped);
       } else {
         console.error("Business API error", res.error);
@@ -84,7 +87,8 @@ export default function ExploreBusiness() {
         </Typography>
 
         <Typography variant="h6" sx={{ color: "#64748B", my: 3 }}>
-          Discover amazing local businesses in your area with exclusive discounts.
+          Discover amazing local businesses in your area with exclusive
+          discounts.
         </Typography>
       </Box>
 
@@ -92,14 +96,20 @@ export default function ExploreBusiness() {
       <Grid container spacing={2}>
         {businesses.map((item) => (
           <Grid size={{ xs: 12, md: 4 }} key={item.id}>
-            <Box className="customCardShadow">
+            <Box
+              className="customCardShadow"
+              sx={{
+                boxShadow: "0px 1px 36.9px 0px #6A6A6A40",
+                minHeight: 250,
+              }}
+            >
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="h3">{item.title}</Typography>
                 <ClickableBox nextPageUrl={`/gallery?id=${item.id}`}>
-                      <CostumeButton className="successBtn">
-                        More details
-                      </CostumeButton>
-                    </ClickableBox>
+                  <CostumeButton className="successBtn">
+                    More details
+                  </CostumeButton>
+                </ClickableBox>
               </Box>
 
               <Typography variant="h6" color="#64748B">
@@ -110,10 +120,65 @@ export default function ExploreBusiness() {
                 {item.discount}
               </Typography>
 
+              {/* <Box mt={2}>
+                <InfoRow
+                  icon={<RoomIcon fontSize="small" />}
+                  text={item.address}
+                />
+                <InfoRow
+                  icon={<LocalPhoneIcon fontSize="small" />}
+                  text={item.phone}
+                />
+                <InfoRow
+                  icon={<AccessTimeIcon fontSize="small" />}
+                  text={item.time}
+                />
+              </Box> */}
+
               <Box mt={2}>
-                <InfoRow icon={<RoomIcon fontSize="small" />} text={item.address} />
-                <InfoRow icon={<LocalPhoneIcon fontSize="small" />} text={item.phone} />
-                <InfoRow icon={<AccessTimeIcon fontSize="small" />} text={item.time} />
+                <Stack rowGap={1}>
+                  <Stack direction="row" spacing={1} alignItems={"flex-start"}>
+                    <RoomIcon
+                      fontSize="small"
+                      sx={{
+                        color: "#64748B",
+                        position: "relative",
+                        top: 4,
+                      }}
+                    />
+                    <Typography variant="h6" sx={{ color: "#64748B" }}>
+                      <WordLimitText text={item.address} />
+                    </Typography>
+                  </Stack>
+
+                  <Stack direction="row" spacing={1}>
+                    <LocalPhoneIcon
+                      fontSize="small"
+                      sx={{
+                        color: "#64748B",
+                        position: "relative",
+                        top: 4,
+                      }}
+                    />
+                    <Typography variant="h6" sx={{ color: "#64748B" }}>
+                      {item.phone}
+                    </Typography>
+                  </Stack>
+
+                  <Stack direction="row" alignItems="center" spacing={1}>
+                    <AccessTimeIcon
+                      fontSize="small"
+                      sx={{
+                        color: "#64748B",
+                        position: "relative",
+                        top: 3,
+                      }}
+                    />
+                    <Typography variant="h6" sx={{ color: "#64748B" }}>
+                      {item.time}
+                    </Typography>
+                  </Stack>
+                </Stack>
               </Box>
             </Box>
           </Grid>

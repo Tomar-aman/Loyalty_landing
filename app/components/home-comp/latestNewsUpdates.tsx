@@ -11,6 +11,7 @@ import { useState, useMemo } from "react";
 import { subscribeNewsletter } from "../../api/home";
 import { RemoteStatus } from "../../api/types";
 import { NewsItem } from "@/services/types.";
+import ModalComponent from "../dailog";
 
 /* ---------- UI TYPE ---------- */
 interface NewsUI {
@@ -76,128 +77,210 @@ export default function LatestNewsUpdates({
     setLoading(false);
   };
 
+  // MODAL
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
-    <Box sx={{ mt: 8 }} id="news">
-      {/* ---------- HEADER ---------- */}
-      <Box sx={{ mb: 3, textAlign: "center" }}>
-        <Typography variant="h2">
-          {title ?? (
-            <>
-              <span
-                style={{
-                  background: "none",
-                  WebkitBackgroundClip: "unset",
-                  WebkitTextFillColor: "#020817",
-                  paddingRight: "10px",
-                }}
+    <>
+      <Box sx={{ mt: 8 }} id="news">
+        {/* ---------- HEADER ---------- */}
+        <Box sx={{ mb: 3, textAlign: "center" }}>
+          <Typography variant="h2">
+            {title ?? (
+              <>
+                <span
+                  style={{
+                    background: "none",
+                    WebkitBackgroundClip: "unset",
+                    WebkitTextFillColor: "#020817",
+                    paddingRight: "10px",
+                  }}
+                >
+                  Latest
+                </span>
+                News & Updates
+              </>
+            )}
+          </Typography>
+
+          <Typography variant="h6" sx={{ color: "#64748B", mt: 1 }}>
+            {description ??
+              "Stay informed about new partnerships, exclusive promotions, and community updates."}
+          </Typography>
+        </Box>
+
+        {/* ---------- NEWS GRID ---------- */}
+        <Grid container spacing={3}>
+          {newsData.map((item, index) => (
+            <Grid size={{ xs: 12, md: 6 }} key={index}>
+              <Box
+                className="customCard"
+                sx={{ border: "1px solid #828282", p: 3 }}
               >
-                Latest
-              </span>
-              News & Updates
-            </>
-          )}
-        </Typography>
+                <Typography variant="h4">{item.title}</Typography>
 
-        <Typography variant="h6" sx={{ color: "#64748B", mt: 1 }}>
-          {description ??
-            "Stay informed about new partnerships, exclusive promotions, and community updates."}
-        </Typography>
-      </Box>
+                <Typography
+                  variant="h6"
+                  sx={{ color: "#64748B", my: 2, fontSize: "16px" }}
+                >
+                  {item.content.length > 160
+                    ? `${item.content.slice(0, 160)}...`
+                    : item.content}
+                </Typography>
 
-      {/* ---------- NEWS GRID ---------- */}
-      <Grid container spacing={3}>
-        {newsData.map((item, index) => (
-          <Grid size={{ xs: 12, md: 6 }} key={index}>
-            <Box
-              className="customCard"
-              sx={{ border: "1px solid #828282", p: 3 }}
-            >
-              <Typography variant="h4">{item.title}</Typography>
+                <Box display="flex" justifyContent="space-between">
+                  <Stack direction={"row"} spacing={1}>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      alignItems={"flex-start"}
+                    >
+                      <CalendarTodayIcon
+                        fontSize="small"
+                        sx={{
+                          color: "#64748B",
+                          position: "relative",
+                          top: 4,
+                        }}
+                      />
+                      <Typography variant="h6" sx={{ color: "#64748B" }}>
+                        {item.date}
+                      </Typography>
+                    </Stack>
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      alignItems={"flex-start"}
+                    >
+                      <AccessTimeIcon
+                        fontSize="small"
+                        sx={{
+                          color: "#64748B",
+                          position: "relative",
+                          top: 4,
+                        }}
+                      />
+                      <Typography variant="h6" sx={{ color: "#64748B" }}>
+                        {item.read}
+                      </Typography>
+                    </Stack>
+                  </Stack>
 
-              <Typography
-                variant="h6"
-                sx={{ color: "#64748B", my: 2, fontSize: "16px" }}
-              >
-                {item.content.length > 160
-                  ? `${item.content.slice(0, 160)}...`
-                  : item.content}
-              </Typography>
-
-              <Box display="flex" justifyContent="space-between">
-                <Box display="flex" gap={2}>
-                  <MetaItem icon={<CalendarTodayIcon />} text={item.date} />
-                  <MetaItem icon={<AccessTimeIcon />} text={item.read} />
+                  <ClickableBox nextPageUrl="/see-our-restaurant">
+                    <Box sx={{ display: "flex", gap: 0.5, fontWeight: 600 }}>
+                      Read More <ArrowForwardIcon fontSize="small" />
+                    </Box>
+                  </ClickableBox>
                 </Box>
-
-                <ClickableBox nextPageUrl="/see-our-restaurant">
-                  <Box sx={{ display: "flex", gap: 0.5, fontWeight: 600 }}>
-                    Read More <ArrowForwardIcon fontSize="small" />
-                  </Box>
-                </ClickableBox>
               </Box>
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
+            </Grid>
+          ))}
+        </Grid>
 
-      {/* VIEW ALL BUTTON */}
-      <Box sx={{ textAlign: "center", mt: 4 }}>
-        <CostumeButton
-          className="primaryBtn"
-          stylesRest={{
-            width: "160px !important",
-          }}
-        >
-          view all
-        </CostumeButton>
-      </Box>
-
-      {/* ---------- NEWSLETTER ---------- */}
-      <Grid container justifyContent="center" sx={{ mt: 6 }}>
-        <Grid size={{ xs: 12 }}>
-          <Box
-            sx={{
-              background:
-                "linear-gradient(90deg, rgba(0,0,255,0.08), rgba(187,51,255,0.08))",
-              borderRadius: "24px",
-              p: 6,
-              textAlign: "center",
+        {/* VIEW ALL BUTTON */}
+        <Box sx={{ textAlign: "center", mt: 4 }}>
+          <CostumeButton
+            className="primaryBtn"
+            stylesRest={{
+              width: "160px !important",
             }}
           >
-            <Typography fontSize={22} fontWeight={700}>
-              Stay in the loop
-            </Typography>
+            view all
+          </CostumeButton>
+        </Box>
 
-            <Typography sx={{ color: "#6B7280", mb: 3 }}>
-              Subscribe to our newsletter and never miss updates.
-            </Typography>
+        {/* ---------- NEWSLETTER ---------- */}
+        <Grid container justifyContent="center" sx={{ mt: 6 }}>
+          <Grid size={{ xs: 12 }}>
+            <Box
+              sx={{
+                background:
+                  "linear-gradient(90deg, rgba(0,0,255,0.08), rgba(187,51,255,0.08))",
+                borderRadius: "24px",
+                p: 6,
+                textAlign: "center",
+              }}
+            >
+              <Typography fontSize={22} fontWeight={700}>
+                Stay in the loop
+              </Typography>
 
-            <Stack direction="row" spacing={2} justifyContent="center">
-              <FormGroup>
-                <LabeledInput
-                  placeholder="Enter your email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  restStyle={{
-                    height: "50px !important",
-                    width: "300px !important",
-                  }}
-                  placeholderStyle={{ color: "#000 !important" }}
-                />
-              </FormGroup>
+              <Typography sx={{ color: "#6B7280", mb: 3 }}>
+                Subscribe to our newsletter and never miss updates.
+              </Typography>
 
-              <CostumeButton
-                className="primaryBtn"
-                onClick={handleSubscribe}
-                disabled={loading}
-              >
-                {loading ? "Subscribing..." : "Subscribe"}
-              </CostumeButton>
-            </Stack>
-          </Box>
+              <Stack direction="row" spacing={2} justifyContent="center">
+                <FormGroup>
+                  <LabeledInput
+                    placeholder="Enter your email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    restStyle={{
+                      height: "50px !important",
+                      width: "300px !important",
+                    }}
+                    placeholderStyle={{ color: "#000 !important" }}
+                  />
+                </FormGroup>
+
+                <CostumeButton
+                  className="primaryBtn"
+                  onClick={handleSubscribe}
+                  disabled={loading}
+                >
+                  {loading ? "Subscribing..." : "Subscribe"}
+                </CostumeButton>
+
+                <Box sx={{ display: "none" }}>
+                  <CostumeButton className="primaryBtn" onClick={handleOpen}>
+                    Open Modal
+                  </CostumeButton>
+                </Box>
+              </Stack>
+            </Box>
+          </Grid>
         </Grid>
-      </Grid>
-    </Box>
+      </Box>
+      {/* Modal */}
+      <ModalComponent
+        title="View Modal"
+        open={open}
+        onClose={() => setOpen(false)}
+      >
+        <Box className="miniModal" sx={{ width: "500px" }}>
+          <Typography
+            variant="h4"
+            sx={{
+              fontSize: "18px",
+              my: 3,
+              color: "#666666",
+              fontWeight: "400",
+            }}
+          >
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus
+            consequatur officia laborum maiores consectetur quibusdam, maxime
+            sapiente veritatis soluta pariatur?
+          </Typography>
+          <Stack direction="row" justifyContent="end" spacing={2}>
+            <CostumeButton onClick={handleClose} className="outlineBtn">
+              Close
+            </CostumeButton>
+            <CostumeButton
+              onClick={handleClose}
+              className="primaryBtn"
+              stylesRest={{
+                height: "40px !important",
+                borderRadius: "8px !important",
+              }}
+            >
+              Save
+            </CostumeButton>
+          </Stack>
+        </Box>
+      </ModalComponent>
+    </>
   );
 }
 
