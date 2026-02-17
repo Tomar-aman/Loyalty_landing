@@ -10,6 +10,7 @@ import { BusinessItem } from "@/services/types.";
 import { FC, useMemo } from "react";
 import dynamic from "next/dynamic";
 import WordLimitText from "../wordLimit/limit";
+import JobFilterSection from "./SearchFilter";
 
 type BusinessMapProps = {
   businesses: BusinessItem[];
@@ -92,6 +93,7 @@ export default function ExploreBusiness({
         </Box>
       )}
 
+      <JobFilterSection />
       <CustomTabs
         tabLabels={["Grid View", "Map View"]}
         tabContents={[
