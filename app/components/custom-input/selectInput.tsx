@@ -77,13 +77,13 @@ function SelectInputComponent({
           sx={{
             fontSize: "16px",
             fontWeight: "400",
-            // paddingLeft: icon ? "0px" : "20px",
+            paddingLeft: icon ? "20px" : "0px",
             borderRadius: "6px",
             borderColor: "unset",
             background: "#F3F3F5",
             color: "#000000",
             border: "1px solid #A1A1AA4D",
-            height: "46px",
+            height: "45px",
             textTransform: "capitalize",
             "& .Mui-focused": {
               color: "#9B59B6",

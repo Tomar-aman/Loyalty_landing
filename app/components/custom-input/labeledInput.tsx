@@ -14,7 +14,7 @@ import { SxProps, Theme } from "@mui/material/styles";
 
 interface IInput extends StandardTextFieldProps {
   label?: React.ReactNode;
-  Placeholder?: string;
+  placeholder?: string;
   icon?: React.ReactNode;
   placeholderStyle?: any;
   readOnly?: boolean;
@@ -29,7 +29,7 @@ interface IInput extends StandardTextFieldProps {
 function LabeledInputComponent({
   label,
   type = "text",
-  Placeholder,
+  placeholder,
   icon,
   placeholderStyle,
   readOnly,
@@ -80,7 +80,7 @@ function LabeledInputComponent({
               "& .MuiInputBase-root": {
                 borderRadius: "10px",
                 border: "1px solid #E2E8F0",
-                height: "40px",
+                height: "45px",
                 background: "#FFFFFF",
                 fontWeight: "400",
                 fontSize: "16px",
@@ -98,13 +98,13 @@ function LabeledInputComponent({
             } as SxProps<Theme>
           }
           {...rest}
-          placeholder={Placeholder}
+          placeholder={placeholder}
           type={type === "password" && showPassword ? "text" : type}
-          value={value ?? ""}            // ✅ CONTROLLED
-          onChange={onChange}            // ✅ FORWARD EVENT
-          InputProps={{
-            readOnly,
-          }}
+          // value={value ?? ""}
+          // onChange={onChange}       
+          // InputProps={{
+          //   readOnly,
+          // }}
         />
 
         {/* ---------- PASSWORD ICON ---------- */}
