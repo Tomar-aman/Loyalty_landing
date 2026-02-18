@@ -22,22 +22,24 @@ import CostumeButton from "../button";
 import { LabeledInput, SelectInput } from "../custom-input";
 
 interface SearchFilterBarProps {
-  search?: string;
-  onSearchChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSearch?: (filters:any)=>void;
+  cities?: any[];
+  categories?: any[];
 }
 
 const categories = ["Cafes", "Food", "Restaurant", "Hotel", "Mall"];
 const cities = ["Berlin", "Munich", "Hamburg", "Frankfurt"];
 
 const JobFilterSection: React.FC<SearchFilterBarProps> = ({
-  search,
-  onSearchChange,
+  onSearch,
+  cities = [],
+  categories = [],
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [sort, setSort] = useState("A-Z");
+  const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-
   const open = Boolean(anchorEl);
 
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -68,6 +70,8 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
         <Grid size={{ xs: 12, md: 10.5 }}>
           <LabeledInput
             placeholder="Search..."
+             value={searchText}
+            onChange={(e:any)=>setSearchText(e.target.value)}
             placeholderStyle={{ color: "#000 !important" }}
           />
         </Grid>
@@ -76,6 +80,14 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
             startIcon={<SearchIcon />}
             className="customstepperBtn"
             stylesRest={{ height: "45px !important" }}
+            onClick={() =>
+              onSearch?.({
+                search: searchText,
+                category: selectedCategory,
+                city: selectedCity,
+                sort: sort === "A-Z" ? "asc" : "desc",
+              })
+            }
           >
             Search
           </CostumeButton>
@@ -108,13 +120,12 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
                 minWidth: "200px",
               }}
               placeholder="Category"
-              options={[
-                { value: "cafes", label: "Cafes" },
-                { value: "food", label: "Food" },
-                { value: "restaurant", label: "Restaurant" },
-                { value: "hotel", label: "Hotel" },
-                { value: "mall", label: "Mall" },
-              ]}
+              value={selectedCategory}
+              onChange={(e:any)=>setSelectedCategory(e.target.value)}
+              options={categories.map((c:any)=>({
+                value: c.id,
+                label: c.name
+              }))}
             />
           </FormGroup>
 
@@ -125,12 +136,12 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
                 minWidth: "200px",
               }}
               placeholder="City"
-              options={[
-                { value: "berlin", label: "Berlin" },
-                { value: "munich", label: "Munich" },
-                { value: "hamburg", label: "Hamburg" },
-                { value: "frankfurt", label: "Frankfurt" },
-              ]}
+              value={selectedCity}
+              onChange={(e:any)=>setSelectedCity(e.target.value)}
+              options={cities.map((c:any)=>({
+                value: c.id,
+                label: c.name
+              }))}
             />
           </FormGroup>
         </Stack>

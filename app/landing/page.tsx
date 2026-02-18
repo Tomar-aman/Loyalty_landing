@@ -16,6 +16,8 @@ import {
   getNewsItems,
   getCards,
   getFaqs,
+  getCities,
+  getCategories,
 } from "../api/home";
 
 import {
@@ -36,6 +38,8 @@ const Landing = () => {
   const [cards, setCards] = useState<CardPlan[]>([]);
   const [faqs, setFaqs] = useState<FAQItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [cities, setCities] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -47,12 +51,16 @@ const Landing = () => {
         newsRes,
         cardRes,
         faqRes,
+        cityRes,
+        categoryRes,
       ] = await Promise.all([
         getLandingPageContent(),
         getFeaturedBusinesses(),
         getNewsItems(),
         getCards(),
         getFaqs(),
+        getCities(),
+        getCategories(),
       ]);
 
       if (landingRes.remote === RemoteStatus.Success)
@@ -71,11 +79,25 @@ const Landing = () => {
       if (faqRes.remote === RemoteStatus.Success)
         setFaqs(faqRes.data as FAQItem[]);
 
+      if (cityRes.remote === RemoteStatus.Success)
+        setCities(cityRes.data as any[]);
+
+      if (categoryRes.remote === RemoteStatus.Success)
+        setCategories(categoryRes.data as any[]);
+
       setLoading(false);
     };
 
     fetchAllData();
   }, []);
+
+  const handleBusinessSearch = async (filters: any) => {
+  const res = await getFeaturedBusinesses(filters);
+
+  if (res.remote === RemoteStatus.Success) {
+    setBusinesses(res.data.results);
+  }
+};
 
   if (loading) {
     return (
@@ -101,6 +123,9 @@ const Landing = () => {
             title={landing.business_section_title}
             description={landing.business_section_description}
             businesses={businesses}
+            cities={cities}
+            categories={categories}
+            onSearch={handleBusinessSearch}
           />
 
           <AdvantageCard

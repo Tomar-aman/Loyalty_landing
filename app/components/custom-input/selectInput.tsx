@@ -11,7 +11,8 @@ interface ISelectInput {
   options: SelectOptions[];
   placeholder?: string;
   styleRest?: any;
-  value?: string | undefined;
+  onChange: (value:string)=>void;
+  value?: string;
   icon?: React.ReactNode;
   restStyleIcon?: CSSProperties;
 }
@@ -24,6 +25,7 @@ function SelectInputComponent({
   options,
   styleRest,
   value,
+  onChange,
   ...rest
 }: ISelectInput) {
   const [open, setOpen] = useState(false);
@@ -116,6 +118,7 @@ function SelectInputComponent({
           )}
           displayEmpty
           value={value}
+          onChange={(e) => onChange(e.target.value)}
           renderValue={(selected) => (selected ? selected : placeholder)}
           {...rest}
         >

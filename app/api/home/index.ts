@@ -12,13 +12,23 @@ export const getLandingPageContent = async () => {
 /* ---------- FEATURED BUSINESSES ---------- */
 
 
-export const getFeaturedBusinesses = async () => {
+export const getFeaturedBusinesses = async (params?: {
+  search?: string;
+  category?: string;
+  city?: string;
+  sort?: string;
+}) => {
   return api.request<PaginatedResponse<BusinessItem>>({
-    url: "/v1/business/businesses/?is_featured=True&search&sort=desc",
+    url: "/v1/business/businesses/",
     method: "GET",
     skipAuth: true,
+    params: {
+      is_featured: true,
+      ...params, // ⭐ dynamic filters
+    },
   });
 };
+
 
 export const getBusinessDetails = async (id: number | string) => {
   return api.request<any>({
@@ -78,6 +88,21 @@ export const submitSupportRequest = async (payload: {
   });
 };
 
+export const getCities = async () => {
+  return api.request({
+    url: "/v1/user/cities",
+    method: "GET",
+    skipAuth: true,
+  });
+};
+
+export const getCategories = async () => {
+  return api.request({
+    url: "/v1/business/categories",
+    method: "GET",
+    skipAuth: true,
+  });
+};
 
 export const getFooterDetails = async () => {
   return api.request({
