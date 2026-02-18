@@ -119,10 +119,18 @@ function SelectInputComponent({
           displayEmpty
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          renderValue={(selected) => (selected ? selected : placeholder)}
+          renderValue={(selected) => {
+  if (!selected) return placeholder;
+
+  const selectedOption = options.find(
+    (opt) => String(opt.value) === String(selected)
+  );
+
+  return selectedOption ? selectedOption.label : placeholder;
+}}
           {...rest}
         >
-          <MenuItem disabled sx={{ textTransform: "capitalize" }}>
+          <MenuItem value="">
             {placeholder}
           </MenuItem>
           {options.map((option) => (

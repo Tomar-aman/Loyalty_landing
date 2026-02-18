@@ -18,12 +18,14 @@ import {
   getFaqs,
   getCities,
   getCategories,
+  getOffers,
 } from "../api/home";
 
 import {
   LandingPageContent,
   FAQItem,
   NewsItem,
+  City,
   CardPlan,
   BusinessItem,
 } from "@/services/types.";
@@ -41,6 +43,7 @@ const Landing = () => {
   const [loading, setLoading] = useState(true);
   const [cities, setCities] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
+  const [offers, setOffers] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchAllData = async () => {
@@ -54,6 +57,7 @@ const Landing = () => {
         faqRes,
         cityRes,
         categoryRes,
+        offersRes,
       ] = await Promise.all([
         getLandingPageContent(),
         getFeaturedBusinesses(),
@@ -62,6 +66,7 @@ const Landing = () => {
         getFaqs(),
         getCities(),
         getCategories(),
+        getOffers(),
       ]);
 
       if (landingRes.remote === RemoteStatus.Success)
@@ -80,11 +85,14 @@ const Landing = () => {
       if (faqRes.remote === RemoteStatus.Success)
         setFaqs(faqRes.data as FAQItem[]);
 
-      if (cityRes.remote === RemoteStatus.Success)
-        setCities(cityRes.data as any[]);
+     if (cityRes.remote === RemoteStatus.Success)
+      setCities(cityRes.data.results as any[]);
 
-      if (categoryRes.remote === RemoteStatus.Success)
-        setCategories(categoryRes.data as any[]);
+    if (categoryRes.remote === RemoteStatus.Success)
+      setCategories(categoryRes.data as any[]);
+
+    if (offersRes.remote === RemoteStatus.Success)
+      setOffers(offersRes.data.results as any[]);
 
       setLoading(false);
     };
@@ -92,13 +100,24 @@ const Landing = () => {
     fetchAllData();
   }, []);
 
-  const handleBusinessSearch = async (filters: any) => {
-  const res = await getFeaturedBusinesses(filters);
+  
+ const handleBusinessSearch = async (filters: any) => {
+
+  // check if all filters empty
+  const isEmpty =
+    !filters.search &&
+    !filters.category &&
+    !filters.city;
+
+  const res = isEmpty
+    ? await getFeaturedBusinesses()   // default featured only
+    : await getFeaturedBusinesses(filters);
 
   if (res.remote === RemoteStatus.Success) {
     setBusinesses(res.data.results);
   }
 };
+
 
   if (loading) {
     return (
@@ -136,7 +155,7 @@ const Landing = () => {
             cards={cards}
           />
 
-          <VoucherComp />
+          <VoucherComp offers={offers} />
 
           <HowItWorks />
 

@@ -18,16 +18,33 @@ export const getFeaturedBusinesses = async (params?: {
   city?: string;
   sort?: string;
 }) => {
+
+  const filteredParams: any = {
+    is_featured: "True",
+  };
+
+  if (params?.search?.trim())
+    filteredParams.search = params.search.trim();
+
+  if (params?.category)
+    filteredParams.category = params.category;
+
+  if (params?.city)
+    filteredParams.city = params.city;
+
+  if (params?.sort)
+    filteredParams.ordering = params.sort === "asc" ? "name" : "-name";
+
+  console.log("API Params:", filteredParams);
+
   return api.request<PaginatedResponse<BusinessItem>>({
     url: "/v1/business/businesses/",
     method: "GET",
     skipAuth: true,
-    params: {
-      is_featured: true,
-      ...params, // ⭐ dynamic filters
-    },
+    params: filteredParams,
   });
 };
+
 
 
 export const getBusinessDetails = async (id: number | string) => {
@@ -47,6 +64,14 @@ export const getFaqs = async () => {
   });
 };
 
+
+export const getOffers= async () => {
+  return api.request({
+    url: "/v1/business/popular/",
+    method: "GET",
+    skipAuth: true,
+  });
+};
 /* ---------- Contact Us (form submit) ---------- */
 export const submitContactUs = async (payload: {
   name: string;
@@ -98,7 +123,7 @@ export const getCities = async () => {
 
 export const getCategories = async () => {
   return api.request({
-    url: "/v1/business/categories",
+    url: "/v1/business/categories/",
     method: "GET",
     skipAuth: true,
   });

@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Box,
   Grid,
@@ -27,8 +26,8 @@ interface SearchFilterBarProps {
   categories?: any[];
 }
 
-const categories = ["Cafes", "Food", "Restaurant", "Hotel", "Mall"];
-const cities = ["Berlin", "Munich", "Hamburg", "Frankfurt"];
+// const categories = ["Cafes", "Food", "Restaurant", "Hotel", "Mall"];
+// const cities = ["Berlin", "Munich", "Hamburg", "Frankfurt"];
 
 const JobFilterSection: React.FC<SearchFilterBarProps> = ({
   onSearch,
@@ -55,6 +54,20 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
     setSelectedCategory("");
   };
 
+  useEffect(() => {
+  const delay = setTimeout(() => {
+    onSearch?.({
+      search: searchText,
+      category: selectedCategory,
+      city: selectedCity,
+      sort: sort === "A-Z" ? "asc" : "desc",
+    });
+  }, 500);
+
+  return () => clearTimeout(delay);
+}, [searchText, selectedCategory, selectedCity, sort]);
+
+
   return (
     <Box
       sx={{
@@ -70,7 +83,7 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
         <Grid size={{ xs: 12, md: 10.5 }}>
           <LabeledInput
             placeholder="Search..."
-             value={searchText}
+            value={searchText}
             onChange={(e:any)=>setSearchText(e.target.value)}
             placeholderStyle={{ color: "#000 !important" }}
           />
@@ -121,8 +134,8 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
               }}
               placeholder="Category"
               value={selectedCategory}
-              onChange={(e:any)=>setSelectedCategory(e.target.value)}
-              options={categories.map((c:any)=>({
+              onChange={(value:any)=>setSelectedCategory(value)}
+              options={(categories ?? []).map((c:any)=>({
                 value: c.id,
                 label: c.name
               }))}
@@ -137,8 +150,8 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
               }}
               placeholder="City"
               value={selectedCity}
-              onChange={(e:any)=>setSelectedCity(e.target.value)}
-              options={cities.map((c:any)=>({
+              onChange={(value:any)=>setSelectedCity(value)}
+              options={(cities ?? []).map((c:any)=>({
                 value: c.id,
                 label: c.name
               }))}
