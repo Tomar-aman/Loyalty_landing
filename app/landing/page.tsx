@@ -30,6 +30,7 @@ import {
 
 import { RemoteStatus } from "../api/types";
 import JobFilterSection from "../components/home-comp/SearchFilter";
+import VoucherComp from "../components/home-comp/voucher";
 
 const Landing = () => {
   const [landing, setLanding] = useState<LandingPageContent | null>(null);
@@ -134,6 +135,8 @@ const Landing = () => {
             image={landing.card_section_image}
             cards={cards}
           />
+
+          <VoucherComp />
 
           <HowItWorks />
 
