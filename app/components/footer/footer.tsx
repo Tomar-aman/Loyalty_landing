@@ -112,7 +112,7 @@ export default function Footer() {
         <Grid size={{ xs:12, md:4 }}>
           <ClickableBox nextPageUrl="/">
             <Typography variant="h2" sx={{ fontSize: 24, mb: 2 }}>
-              {landing?.footer_section_title || "BusinessConnect"}
+              {landing?.footer_section_title || "Business Connect"}
             </Typography>
           </ClickableBox>
 
