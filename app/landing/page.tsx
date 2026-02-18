@@ -27,6 +27,7 @@ import {
 } from "@/services/types.";
 
 import { RemoteStatus } from "../api/types";
+import JobFilterSection from "../components/home-comp/SearchFilter";
 
 const Landing = () => {
   const [landing, setLanding] = useState<LandingPageContent | null>(null);
@@ -117,7 +118,7 @@ const Landing = () => {
             news={news}
           />
 
-          <GetInTouch 
+          <GetInTouch
             title={landing.touch_section_title}
             description={landing.touch_section_description}
           />
