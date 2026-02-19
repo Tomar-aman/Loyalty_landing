@@ -30,6 +30,9 @@ const baselightTheme = createTheme({
       background: "linear-gradient(360deg, #4DA4C7 0%, #77C3E2 100%)",
       WebkitBackgroundClip: "text",
       WebkitTextFillColor: "transparent",
+      "@media (max-width: 600px)": {
+        fontSize: "40px",
+      },
     },
     h2: {
       fontSize: "48px",
@@ -39,6 +42,9 @@ const baselightTheme = createTheme({
       WebkitBackgroundClip: "text",
       color: "transparent",
       WebkitTextFillColor: "transparent",
+      "@media (max-width: 600px)": {
+        fontSize: "26px",
+      },
     },
     h3: {
       fontSize: "18px",
@@ -51,18 +57,27 @@ const baselightTheme = createTheme({
       textTransform: "capitalize",
       fontWeight: "700",
       color: "#020817",
+      "@media (max-width: 600px)": {
+        fontSize: "16px",
+      },
     },
     h5: {
       fontSize: "30px",
       textTransform: "capitalize",
       color: "#0000FF",
       fontWeight: "700",
+      "@media (max-width: 600px)": {
+        fontSize: "20px",
+      },
     },
     h6: {
       fontSize: "16px",
       textTransform: "capitalize",
       color: "#FAFAFF",
       fontWeight: "400",
+      "@media (max-width: 600px)": {
+        fontSize: "14px",
+      },
     },
   },
   // CUSTOM HEADING VARIENT TYPOGRAPHY

@@ -85,6 +85,9 @@ function LabeledInputComponent({
                 fontWeight: "400",
                 fontSize: "16px",
                 color: "#000",
+                "@media (max-width: 600px)": {
+                width:"100%"
+                },
                 ...(restStyle || {}),
               },
               "& .MuiInputBase-input::placeholder": {
@@ -101,7 +104,7 @@ function LabeledInputComponent({
           placeholder={placeholder}
           type={type === "password" && showPassword ? "text" : type}
           // value={value ?? ""}
-          // onChange={onChange}       
+          // onChange={onChange}
           // InputProps={{
           //   readOnly,
           // }}

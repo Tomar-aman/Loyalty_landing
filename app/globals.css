@@ -76,3 +76,23 @@ input:-moz-autofill:focus {
   -moz-text-fill-color: #000 !important;
   caret-color: #000 !important;
 }
+
+.pageLoaderCenter {
+  position: fixed;
+  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: rgba(0, 0, 0, 0.5);
+  z-index: 9999; */
+}
+
+@media (max-width: 600px) {
+  .pageColor {
+    padding: 20px;
+  }
+}
