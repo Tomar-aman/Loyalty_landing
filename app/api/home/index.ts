@@ -33,7 +33,7 @@ export const getFeaturedBusinesses = async (params?: {
     filteredParams.city = params.city;
 
   if (params?.sort)
-    filteredParams.ordering = params.sort === "asc" ? "name" : "-name";
+    filteredParams.ordering = params.sort === "asc" ? "asc" : "desc";
 
   console.log("API Params:", filteredParams);
 
