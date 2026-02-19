@@ -98,14 +98,15 @@ function LabeledInputComponent({
             } as SxProps<Theme>
           }
           {...rest}
+          value={value ?? ""}          // ⭐ REQUIRED
+          onChange={onChange}          // ⭐ REQUIRED
           placeholder={placeholder}
           type={type === "password" && showPassword ? "text" : type}
-          // value={value ?? ""}
-          // onChange={onChange}       
-          // InputProps={{
-          //   readOnly,
-          // }}
+          InputProps={{
+            readOnly,
+          }}
         />
+
 
         {/* ---------- PASSWORD ICON ---------- */}
         {type === "password" && (

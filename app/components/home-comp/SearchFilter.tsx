@@ -52,6 +52,7 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
   const handleReset = () => {
     setSort("A-Z");
     setSelectedCategory("");
+    setSelectedCity("");
   };
 
   useEffect(() => {
