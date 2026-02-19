@@ -73,7 +73,15 @@ export default function GetInTouch({
 
   /* ---------- UI ---------- */
   return (
-    <Box sx={{ px: 10 }} id="getintouch">
+    <Box
+      sx={{
+        px: 10,
+        "@media (max-width: 600px)": {
+          p: 0,
+        },
+      }}
+      id="getintouch"
+    >
       {/* ---------- HEADER ---------- */}
       <Box sx={{ mb: 3, textAlign: "center" }}>
         <Typography variant="h2">
@@ -93,10 +101,10 @@ export default function GetInTouch({
             </>
           )}
         </Typography>
-       <Typography variant="h6" sx={{ color: "#64748B", mt: 1 }}>
-        {description ||
-          "Have questions about our platform? Need help with your advantage card? We're here to help and would love to hear from you."}
-      </Typography>
+        <Typography variant="h6" sx={{ color: "#64748B", mt: 1 }}>
+          {description ||
+            "Have questions about our platform? Need help with your advantage card? We're here to help and would love to hear from you."}
+        </Typography>
       </Box>
 
       {/* ---------- FORM ---------- */}

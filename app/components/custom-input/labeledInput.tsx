@@ -85,6 +85,9 @@ function LabeledInputComponent({
                 fontWeight: "400",
                 fontSize: "16px",
                 color: "#000",
+                "@media (max-width: 600px)": {
+                width:"100%"
+                },
                 ...(restStyle || {}),
               },
               "& .MuiInputBase-input::placeholder": {

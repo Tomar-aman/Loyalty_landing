@@ -9,6 +9,7 @@ import Gallery6 from "./gallery6.png";
 import Gallery7 from "./gallery7.png";
 import Activatcard from "./activat-card.png";
 import ActivatcardNew from "./activat-cardnew.png";
+import MapImage from "./mapImage.png";
 
 const IMAGES = {
   Homebanner,
@@ -22,6 +23,7 @@ const IMAGES = {
   Gallery7,
   Activatcard,
   ActivatcardNew,
+  MapImage,
 };
 
 export default IMAGES;

@@ -117,7 +117,13 @@ export default function LatestNewsUpdates({
             <Grid size={{ xs: 12, md: 6 }} key={index}>
               <Box
                 className="customCard"
-                sx={{ border: "1px solid #828282", p: 3 }}
+                sx={{
+                  border: "1px solid #828282",
+                  p: 3,
+                  "@media (max-width: 600px)": {
+                    p: 2,
+                  },
+                }}
               >
                 <Typography variant="h4">{item.title}</Typography>
 
@@ -134,7 +140,7 @@ export default function LatestNewsUpdates({
                   <Stack direction={"row"} spacing={1}>
                     <Stack
                       direction="row"
-                      spacing={1}
+                      spacing={{ xs: 0.5, sm: 1 }}
                       alignItems={"flex-start"}
                     >
                       <CalendarTodayIcon
@@ -143,6 +149,9 @@ export default function LatestNewsUpdates({
                           color: "#64748B",
                           position: "relative",
                           top: 4,
+                          "@media (max-width: 600px)": {
+                            top: 1,
+                          },
                         }}
                       />
                       <Typography variant="h6" sx={{ color: "#64748B" }}>
@@ -151,7 +160,7 @@ export default function LatestNewsUpdates({
                     </Stack>
                     <Stack
                       direction="row"
-                      spacing={1}
+                      spacing={{ xs: 0.5, sm: 1 }}
                       alignItems={"flex-start"}
                     >
                       <AccessTimeIcon
@@ -160,6 +169,9 @@ export default function LatestNewsUpdates({
                           color: "#64748B",
                           position: "relative",
                           top: 4,
+                          "@media (max-width: 600px)": {
+                            top: 1,
+                          },
                         }}
                       />
                       <Typography variant="h6" sx={{ color: "#64748B" }}>
@@ -201,6 +213,9 @@ export default function LatestNewsUpdates({
                 borderRadius: "24px",
                 p: 6,
                 textAlign: "center",
+                "@media (max-width: 600px)": {
+                  p: 3,
+                },
               }}
             >
               <Typography fontSize={22} fontWeight={700}>
@@ -211,7 +226,11 @@ export default function LatestNewsUpdates({
                 Subscribe to our newsletter and never miss updates.
               </Typography>
 
-              <Stack direction="row" spacing={2} justifyContent="center">
+              <Stack
+                direction={{ xs: "column", sm: "row" }}
+                spacing={2}
+                justifyContent="center"
+              >
                 <FormGroup>
                   <LabeledInput
                     placeholder="Enter your email address"
