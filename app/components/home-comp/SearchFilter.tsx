@@ -77,6 +77,9 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
         borderRadius: 2,
         p: 4,
         boxShadow: "0px 2px 8px 0px #00000026",
+        "@media (max-width: 600px)": {
+          p: 3,
+        },
       }}
     >
       {/* SEARCH SECTION */}
@@ -85,7 +88,7 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
           <LabeledInput
             placeholder="Search..."
             value={searchText}
-            onChange={(e:any)=>setSearchText(e.target.value)}
+            onChange={(e: any) => setSearchText(e.target.value)}
             placeholderStyle={{ color: "#000 !important" }}
           />
         </Grid>
@@ -110,7 +113,12 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
 
       {/* FILTER ROW */}
       <Box mt={3}>
-        <Stack direction="row" spacing={2} alignItems="center">
+        <Stack
+          direction={{ sm: "row", xs: "column" }}
+          // direction={"row"}
+          spacing={2}
+          alignItems="center"
+        >
           {/* SORT BUTTON — shows selected sort value */}
           <CostumeButton
             className="inheritCssComonBtn"
@@ -132,13 +140,16 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
             <SelectInput
               styleRest={{
                 minWidth: "200px",
+                "@media (max-width: 600px)": {
+                  minWidth: "250px",
+                },
               }}
               placeholder="Category"
               value={selectedCategory}
-              onChange={(value:any)=>setSelectedCategory(value)}
-              options={(categories ?? []).map((c:any)=>({
+              onChange={(value: any) => setSelectedCategory(value)}
+              options={(categories ?? []).map((c: any) => ({
                 value: c.id,
-                label: c.name
+                label: c.name,
               }))}
             />
           </FormGroup>
@@ -148,13 +159,16 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
             <SelectInput
               styleRest={{
                 minWidth: "200px",
+                "@media (max-width: 600px)": {
+                  minWidth: "250px",
+                },
               }}
               placeholder="City"
               value={selectedCity}
-              onChange={(value:any)=>setSelectedCity(value)}
-              options={(cities ?? []).map((c:any)=>({
+              onChange={(value: any) => setSelectedCity(value)}
+              options={(cities ?? []).map((c: any) => ({
                 value: c.id,
-                label: c.name
+                label: c.name,
               }))}
             />
           </FormGroup>

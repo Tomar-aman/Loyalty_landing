@@ -10,6 +10,7 @@ import ThemeRegistry from "./theme-registry";
 import { usePathname } from "next/navigation";
 import localFont from "next/font/local";
 import { Suspense } from "react";
+import { CircularProgress } from "@mui/material";
 
 /* ---- LOCAL FONTS ---- */
 const geistSans = localFont({
@@ -44,7 +45,14 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <ThemeRegistry>
           {/* 🔥 Suspense boundary added */}
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense
+            fallback={
+              <div className="pageLoaderCenter">
+                {/* <div>Loading...</div> */}
+                <CircularProgress size="30px" />
+              </div>
+            }
+          >
             <LayoutWrapper>{children}</LayoutWrapper>
           </Suspense>
         </ThemeRegistry>

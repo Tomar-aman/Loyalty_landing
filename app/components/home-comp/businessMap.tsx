@@ -7,6 +7,12 @@ import CallIcon from "@mui/icons-material/Call";
 import EmailIcon from "@mui/icons-material/Email";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import L from "leaflet";
+import SVG from "@/app/assets/svg";
+import Image from "next/image";
+import IMAGES from "@/app/assets/images";
+import LocationPinIcon from "@mui/icons-material/LocationPin";
+import CostumeButton from "../button";
+import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 
 /* ---------- TYPES ---------- */
 interface BusinessMapProps {
@@ -25,20 +31,19 @@ interface BusinessMapProps {
 /* ---------- LEAFLET DYNAMIC IMPORTS ---------- */
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
-  { ssr: false }
+  { ssr: false },
 );
 const TileLayer = dynamic(
   () => import("react-leaflet").then((mod) => mod.TileLayer),
-  { ssr: false }
+  { ssr: false },
 );
 const Marker = dynamic(
   () => import("react-leaflet").then((mod) => mod.Marker),
-  { ssr: false }
+  { ssr: false },
 );
-const Popup = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Popup),
-  { ssr: false }
-);
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+  ssr: false,
+});
 
 /* ---------- CUSTOM MARKER ---------- */
 const redPin = new L.Icon({
@@ -77,66 +82,136 @@ export default function BusinessMap({ businesses }: BusinessMapProps) {
           return (
             <Marker key={b.id} position={position} icon={redPin}>
               <Popup>
-                <Card sx={{ width: 260, p: 2, borderRadius: 3 }}>
-                  <Typography fontWeight="bold">{b.name}</Typography>
-
-                  <Typography variant="body2" sx={{ mt: 1 }}>
-                    📍 {b.address}
-                  </Typography>
-
-                  {/* OFFER */}
-                  {b.offers?.[0]?.title && (
-                    <Button
-                      fullWidth
-                      size="small"
+                <Stack direction={"row"} spacing={1}>
+                  <Box>
+                    <Image src={IMAGES.MapImage} alt="map" />
+                  </Box>
+                  <Box className="mapContent">
+                    <Typography
                       sx={{
-                        mt: 1,
-                        background: "#c8a5ff",
-                        color: "white",
-                        textTransform: "none",
+                        fontSize: "16px !important",
+                        color: "#020817 !important",
+                        fontWeight: "700 !important",
                       }}
                     >
-                      {b.offers[0].title}
-                    </Button>
-                  )}
-
-                  {/* ACTION BUTTONS */}
-                  <Stack
-                    direction="row"
-                    spacing={1}
-                    justifyContent="space-between"
-                    sx={{ mt: 2 }}
-                  >
-                    {b.phone_number && (
-                      <Button
-                        size="small"
-                        startIcon={<CallIcon />}
-                        href={`tel:${b.phone_number}`}
-                      >
-                        Call
-                      </Button>
-                    )}
-
-                    {b.email && (
-                      <Button
-                        size="small"
-                        startIcon={<EmailIcon />}
-                        href={`mailto:${b.email}`}
-                      >
-                        Email
-                      </Button>
-                    )}
-
-                    <Button
-                      size="small"
-                      startIcon={<DirectionsIcon />}
-                      href={`https://www.google.com/maps?q=${b.latitude},${b.longitude}`}
-                      target="_blank"
+                      {b.name}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: "14px !important",
+                        color: "#7C3BED !important",
+                        fontWeight: "500 !important",
+                      }}
                     >
-                      Direction
-                    </Button>
-                  </Stack>
-                </Card>
+                      Italian Restaurant
+                    </Typography>
+                    <Typography
+                      fontWeight="h4"
+                      sx={{
+                        fontSize: "14px",
+                        display: "flex",
+                        alignItems: "center",
+                        color: "#65758B",
+                      }}
+                    >
+                      <LocationPinIcon sx={{ color: "#65758B" }} />
+                      {b.address}
+                    </Typography>
+
+                    <Box
+                      sx={{
+                        color: "#7C3BED",
+                        background: "#F0F0FF ",
+                        height: "29px ",
+                        padding: "12px",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        borderRadius:"100px"
+                      }}
+                    >
+                      More details
+                      <ChevronRightOutlinedIcon />
+                    </Box>
+
+                    {/* OFFER */}
+                    {b.offers?.[0]?.title && (
+                      <Box
+                        sx={{
+                          mt: 1,
+                          color: "white",
+                          textAlign: "left",
+                          p: 1,
+                          background:
+                            "linear-gradient(100.61deg, #7C3BED 0%, #B366FF 100%)",
+                          borderRadius: "6px",
+                          fontWeight: "600",
+                        }}
+                      >
+                        {b.offers[0].title} off dinner
+                      </Box>
+                    )}
+
+                    {/* ACTION BUTTONS */}
+                    <Stack
+                      direction="row"
+                      spacing={1}
+                      justifyContent="space-between"
+                      sx={{ mt: 2 }}
+                    >
+                      {b.phone_number && (
+                        <CostumeButton
+                          className="inheritCssComonBtn"
+                          stylesRest={{
+                            border: "1px solid #F0F0FF !important",
+                            color: "#007F13 !important",
+                            background: "#F5F5FF !important",
+                            height: "26px !important",
+                            padding: "12px !important",
+                          }}
+                          startIcon={<CallIcon sx={{ color: "#007F13" }} />}
+                          href={`tel:${b.phone_number}`}
+                        >
+                          Call
+                        </CostumeButton>
+                      )}
+
+                      {b.email && (
+                        <CostumeButton
+                          className="inheritCssComonBtn"
+                          stylesRest={{
+                            border: "1px solid #F0F0FF !important",
+                            color: "#7C3BED !important",
+                            background: "#F5F5FF !important",
+                            height: "26px !important",
+                            padding: "12px !important",
+                          }}
+                          startIcon={<EmailIcon sx={{ color: "#7C3BED" }} />}
+                          href={`mailto:${b.email}`}
+                        >
+                          Email
+                        </CostumeButton>
+                      )}
+
+                      <Button
+                        sx={{
+                          border: "1px solid #F0F0FF !important",
+                          color: "#7C3BED !important",
+                          background: "#F5F5FF !important",
+                          height: "26px !important",
+                          padding: "12px !important",
+                          boxShadow: "none",
+                          borderRadius: "10px",
+                        }}
+                        startIcon={<DirectionsIcon sx={{ color: "#7C3BED" }} />}
+                        href={`https://www.google.com/maps?q=${b.latitude},${b.longitude}`}
+                        target="_blank"
+                      >
+                        Direction
+                      </Button>
+                    </Stack>
+                  </Box>
+                </Stack>
               </Popup>
             </Marker>
           );

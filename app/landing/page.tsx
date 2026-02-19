@@ -1,5 +1,5 @@
 "use client";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 import Topbanner from "../components/home-comp/topbanner";
@@ -85,14 +85,14 @@ const Landing = () => {
       if (faqRes.remote === RemoteStatus.Success)
         setFaqs(faqRes.data as FAQItem[]);
 
-     if (cityRes.remote === RemoteStatus.Success)
-      setCities((cityRes.data as {results: any}).results);
+      if (cityRes.remote === RemoteStatus.Success)
+        setCities((cityRes.data as { results: any }).results);
 
-    if (categoryRes.remote === RemoteStatus.Success)
-      setCategories(categoryRes.data as any[]);
+      if (categoryRes.remote === RemoteStatus.Success)
+        setCategories(categoryRes.data as any[]);
 
-    if (offersRes.remote === RemoteStatus.Success)
-      setOffers((offersRes.data as {results: any}).results);
+      if (offersRes.remote === RemoteStatus.Success)
+        setOffers((offersRes.data as { results: any }).results);
 
       setLoading(false);
     };
@@ -100,30 +100,29 @@ const Landing = () => {
     fetchAllData();
   }, []);
 
-  
- const handleBusinessSearch = async (filters: any) => {
+  const handleBusinessSearch = async (filters: any) => {
+    // check if all filters empty
+    const isEmpty = !filters.search && !filters.category && !filters.city;
 
-  // check if all filters empty
-  const isEmpty =
-    !filters.search &&
-    !filters.category &&
-    !filters.city;
+    const res = isEmpty
+      ? await getFeaturedBusinesses() // default featured only
+      : await getFeaturedBusinesses(filters);
 
-  const res = isEmpty
-    ? await getFeaturedBusinesses()   // default featured only
-    : await getFeaturedBusinesses(filters);
-
-  if (res.remote === RemoteStatus.Success) {
-    setBusinesses(res.data.results);
-  }
-};
-
+    if (res.remote === RemoteStatus.Success) {
+      setBusinesses(res.data.results);
+    }
+  };
 
   if (loading) {
     return (
-      <Typography align="center" sx={{ mt: 4 }}>
-        Loading...
-      </Typography>
+      <>
+        {/* <Typography align="center" sx={{ mt: 4 }}>
+          Loading...
+        </Typography> */}
+        <div className="pageLoaderCenter">
+          <CircularProgress size="30px" />
+        </div>
+      </>
     );
   }
 

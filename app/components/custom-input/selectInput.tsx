@@ -97,6 +97,7 @@ function SelectInputComponent({
               color: "#9B59B6",
               WebkitTextFillColor: "#666666",
             },
+
             ...styleRest,
           }}
           IconComponent={() => (
@@ -120,19 +121,17 @@ function SelectInputComponent({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           renderValue={(selected) => {
-  if (!selected) return placeholder;
+            if (!selected) return placeholder;
 
-  const selectedOption = options.find(
-    (opt) => String(opt.value) === String(selected)
-  );
+            const selectedOption = options.find(
+              (opt) => String(opt.value) === String(selected),
+            );
 
-  return selectedOption ? selectedOption.label : placeholder;
-}}
+            return selectedOption ? selectedOption.label : placeholder;
+          }}
           {...rest}
         >
-          <MenuItem value="">
-            {placeholder}
-          </MenuItem>
+          <MenuItem value="">{placeholder}</MenuItem>
           {options.map((option) => (
             <MenuItem value={option.value} key={option.value}>
               {option.label}

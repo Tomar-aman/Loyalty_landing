@@ -56,7 +56,7 @@ export default function HowItWorks() {
       </Box>
       <Grid container spacing={3} justifyContent="center">
         {steps.map((item, index) => (
-          <Grid size={{ xs: 6, md: 3 }} key={index}>
+          <Grid size={{ xs: 12, md: 3 }} key={index}>
             <Box
               className="customCardShadow"
               sx={{

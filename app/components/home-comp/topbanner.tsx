@@ -21,6 +21,10 @@ export default function Topbanner({
         background: "linear-gradient(122.01deg, #0000FF 0%, #BB33FF 100%)",
         height: "600px",
         padding: "50px 100px",
+        "@media (max-width: 600px)": {
+          padding: "20px",
+          height: "auto",
+        },
       }}
     >
       <Grid
@@ -51,7 +55,8 @@ export default function Topbanner({
             </Typography>
 
             <Typography variant="h6">
-              {banner_description || "Discover coupons and deals designed to match your shopping needs, helping you save more every day."}
+              {banner_description ||
+                "Discover coupons and deals designed to match your shopping needs, helping you save more every day."}
             </Typography>
 
             <CostumeButton
@@ -107,14 +112,25 @@ export default function Topbanner({
 
         {/* RIGHT IMAGE */}
         <Grid size={{ xs: 12, md: 6 }}>
-          <Image
-            src={banner_image ? banner_image : IMAGES.Homebanner}
-            alt="Home Banner"
-            width={500}
-            height={500}
-            style={{ borderRadius: "100%",objectFit: "cover" }}
-            unoptimized
-          />
+          <Box
+            sx={{
+              img: {
+                "@media (max-width: 600px)": {
+                  width: "100%",
+                  height: "auto",
+                },
+              },
+            }}
+          >
+            <Image
+              src={banner_image ? banner_image : IMAGES.Homebanner}
+              alt="Home Banner"
+              width={500}
+              height={500}
+              style={{ borderRadius: "100%", objectFit: "cover" }}
+              unoptimized
+            />
+          </Box>
         </Grid>
       </Grid>
     </Box>
