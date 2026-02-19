@@ -160,6 +160,10 @@ const CustomTable: React.FC<CustomTableProps> = (props) => {
                       { value: "100 items", label: "100 items" },
                       { value: "500 items", label: "500 items" },
                     ]}
+                    onChange={(value) => {
+                      // Handle the change event here
+                      console.log(value);
+                    }}
                   />
                 </FormGroup>
               </Box>

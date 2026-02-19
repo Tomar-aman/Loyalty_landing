@@ -86,13 +86,13 @@ const Landing = () => {
         setFaqs(faqRes.data as FAQItem[]);
 
      if (cityRes.remote === RemoteStatus.Success)
-      setCities(cityRes.data.results as any[]);
+      setCities((cityRes.data as {results: any}).results);
 
     if (categoryRes.remote === RemoteStatus.Success)
       setCategories(categoryRes.data as any[]);
 
     if (offersRes.remote === RemoteStatus.Success)
-      setOffers(offersRes.data.results as any[]);
+      setOffers((offersRes.data as {results: any}).results);
 
       setLoading(false);
     };

@@ -65,12 +65,12 @@ export default function ExploreBusiness() {
 
         // cities
         if (cityRes.remote === RemoteStatus.Success) {
-          setCities(cityRes.data.results);
+          setCities((cityRes.data as {results: any}).results);
         }
 
         // categories
         if (categoryRes.remote === RemoteStatus.Success) {
-          setCategories(categoryRes.data);
+          setCategories(categoryRes.data as any[]);
         }
       } catch (err) {
         console.error("Init load error", err);
