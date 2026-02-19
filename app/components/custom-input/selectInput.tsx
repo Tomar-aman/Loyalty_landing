@@ -11,7 +11,8 @@ interface ISelectInput {
   options: SelectOptions[];
   placeholder?: string;
   styleRest?: any;
-  value?: string | undefined;
+  onChange: (value:string)=>void;
+  value?: string;
   icon?: React.ReactNode;
   restStyleIcon?: CSSProperties;
 }
@@ -24,6 +25,7 @@ function SelectInputComponent({
   options,
   styleRest,
   value,
+  onChange,
   ...rest
 }: ISelectInput) {
   const [open, setOpen] = useState(false);
@@ -116,10 +118,19 @@ function SelectInputComponent({
           )}
           displayEmpty
           value={value}
-          renderValue={(selected) => (selected ? selected : placeholder)}
+          onChange={(e) => onChange(e.target.value)}
+          renderValue={(selected) => {
+  if (!selected) return placeholder;
+
+  const selectedOption = options.find(
+    (opt) => String(opt.value) === String(selected)
+  );
+
+  return selectedOption ? selectedOption.label : placeholder;
+}}
           {...rest}
         >
-          <MenuItem disabled sx={{ textTransform: "capitalize" }}>
+          <MenuItem value="">
             {placeholder}
           </MenuItem>
           {options.map((option) => (

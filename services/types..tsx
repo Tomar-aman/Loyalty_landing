@@ -14,7 +14,12 @@ export interface SuccessResponse<T> {
   data: T;
 }
 
-
+export interface Offer {
+  id: number;
+  title: string;
+  description: string;
+  expiry_date: string;
+}
 export interface FooterDetails {
   address: string;
   phone: string;
@@ -78,6 +83,13 @@ export interface FAQItem {
   answer: string;
 }
 
+
+export interface City {
+  id: number;
+  country_name: string;
+  country_code: string;
+  name: string;
+}
 /* =======================
    NEWS
 ======================= */

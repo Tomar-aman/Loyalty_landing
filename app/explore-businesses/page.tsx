@@ -7,11 +7,17 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CostumeButton from "../components/button";
 import { useEffect, useState } from "react";
 
-import { getFeaturedBusinesses } from "../api/home";
+import {
+  getFeaturedBusinesses,
+  getCities,
+  getCategories,
+} from "../api/home";
+
 import { RemoteStatus } from "../api/types";
 import { BusinessItem } from "@/services/types.";
 import ClickableBox from "../components/router";
 import WordLimitText from "../components/wordLimit/limit";
+import JobFilterSection from "../components/home-comp/SearchFilter";
 
 interface UIBusiness {
   id: number;
@@ -22,13 +28,7 @@ interface UIBusiness {
   phone: string;
   time: string;
 }
-interface ApiResponse {
-  remote: RemoteStatus;
-  data: {
-    results: BusinessItem[];
-  };
-}
-/* ⭐ API → UI MAPPER */
+
 const mapBusinessToUI = (item: BusinessItem): UIBusiness => ({
   id: item.id,
   title: item.name,
@@ -44,29 +44,66 @@ const mapBusinessToUI = (item: BusinessItem): UIBusiness => ({
 
 export default function ExploreBusiness() {
   const [businesses, setBusinesses] = useState<UIBusiness[]>([]);
+  const [cities, setCities] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  /* ⭐ CALL API */
+  /* ⭐ INITIAL LOAD (ALL APIs) */
   useEffect(() => {
-    const fetchBusinesses = async () => {
-      const res = await getFeaturedBusinesses();
+    const initLoad = async () => {
+      try {
+        const [businessRes, cityRes, categoryRes] = await Promise.all([
+          getFeaturedBusinesses(),
+          getCities(),
+          getCategories(),
+        ]);
 
-      if (res.remote === RemoteStatus.Success) {
-        const mapped = res.data.results.map(
-          mapBusinessToUI as (item: BusinessItem) => UIBusiness,
-        );
-        setBusinesses(mapped);
-      } else {
-        console.error("Business API error", res.error);
+        // businesses
+        if (businessRes.remote === RemoteStatus.Success) {
+          setBusinesses(businessRes.data.results.map(mapBusinessToUI));
+        }
+
+        // cities
+        if (cityRes.remote === RemoteStatus.Success) {
+          setCities((cityRes.data as {results: any}).results);
+        }
+
+        // categories
+        if (categoryRes.remote === RemoteStatus.Success) {
+          setCategories(categoryRes.data as any[]);
+        }
+      } catch (err) {
+        console.error("Init load error", err);
       }
 
       setLoading(false);
     };
 
-    fetchBusinesses();
+    initLoad();
   }, []);
 
-  /* ⭐ LOADING STATE */
+  /* ⭐ SEARCH / FILTER API */
+  const fetchBusinesses = async (filters?: any) => {
+    const res = await getFeaturedBusinesses(filters);
+
+    if (res.remote === RemoteStatus.Success) {
+      setBusinesses(res.data.results.map(mapBusinessToUI));
+    }
+  };
+
+  const onSearch = async (filters: any) => {
+    const isEmpty =
+      !filters.search &&
+      !filters.category &&
+      !filters.city;
+
+    if (isEmpty) {
+      fetchBusinesses(); // reset list
+    } else {
+      fetchBusinesses(filters);
+    }
+  };
+
   if (loading) {
     return (
       <Typography align="center" sx={{ mt: 5 }}>
@@ -87,22 +124,22 @@ export default function ExploreBusiness() {
         </Typography>
 
         <Typography variant="h6" sx={{ color: "#64748B", my: 3 }}>
-          Discover amazing local businesses in your area with exclusive
-          discounts.
+          Discover amazing local businesses in your area with exclusive discounts.
         </Typography>
       </Box>
+
+      {/* ⭐ FILTER BAR */}
+      <JobFilterSection
+        cities={cities}
+        categories={categories}
+        onSearch={onSearch}
+      />
 
       {/* GRID */}
       <Grid container spacing={2}>
         {businesses.map((item) => (
           <Grid size={{ xs: 12, md: 4 }} key={item.id}>
-            <Box
-              className="customCardShadow"
-              sx={{
-                boxShadow: "0px 1px 36.9px 0px #6A6A6A40",
-                minHeight: 250,
-              }}
-            >
+            <Box className="customCardShadow" sx={{ boxShadow:"0px 1px 36.9px 0px #6A6A6A40", minHeight:250 }}>
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="h3">{item.title}</Typography>
                 <ClickableBox nextPageUrl={`/gallery?id=${item.id}`}>
@@ -112,69 +149,28 @@ export default function ExploreBusiness() {
                 </ClickableBox>
               </Box>
 
-              <Typography variant="h6" color="#64748B">
-                {item.category}
-              </Typography>
-
-              <Typography variant="h5" fontSize={16} mt={1}>
-                {item.discount}
-              </Typography>
-
-              {/* <Box mt={2}>
-                <InfoRow
-                  icon={<RoomIcon fontSize="small" />}
-                  text={item.address}
-                />
-                <InfoRow
-                  icon={<LocalPhoneIcon fontSize="small" />}
-                  text={item.phone}
-                />
-                <InfoRow
-                  icon={<AccessTimeIcon fontSize="small" />}
-                  text={item.time}
-                />
-              </Box> */}
+              <Typography variant="h6" color="#64748B">{item.category}</Typography>
+              <Typography variant="h5" fontSize={16} mt={1}>{item.discount}</Typography>
 
               <Box mt={2}>
                 <Stack rowGap={1}>
-                  <Stack direction="row" spacing={1} alignItems={"flex-start"}>
-                    <RoomIcon
-                      fontSize="small"
-                      sx={{
-                        color: "#64748B",
-                        position: "relative",
-                        top: 4,
-                      }}
-                    />
-                    <Typography variant="h6" sx={{ color: "#64748B" }}>
+                  <Stack direction="row" spacing={1}>
+                    <RoomIcon fontSize="small" sx={{ color:"#64748B" }} />
+                    <Typography variant="h6" sx={{ color:"#64748B" }}>
                       <WordLimitText text={item.address} />
                     </Typography>
                   </Stack>
 
                   <Stack direction="row" spacing={1}>
-                    <LocalPhoneIcon
-                      fontSize="small"
-                      sx={{
-                        color: "#64748B",
-                        position: "relative",
-                        top: 4,
-                      }}
-                    />
-                    <Typography variant="h6" sx={{ color: "#64748B" }}>
+                    <LocalPhoneIcon fontSize="small" sx={{ color:"#64748B" }} />
+                    <Typography variant="h6" sx={{ color:"#64748B" }}>
                       {item.phone}
                     </Typography>
                   </Stack>
 
-                  <Stack direction="row" alignItems="center" spacing={1}>
-                    <AccessTimeIcon
-                      fontSize="small"
-                      sx={{
-                        color: "#64748B",
-                        position: "relative",
-                        top: 3,
-                      }}
-                    />
-                    <Typography variant="h6" sx={{ color: "#64748B" }}>
+                  <Stack direction="row" spacing={1}>
+                    <AccessTimeIcon fontSize="small" sx={{ color:"#64748B" }} />
+                    <Typography variant="h6" sx={{ color:"#64748B" }}>
                       {item.time}
                     </Typography>
                   </Stack>
@@ -187,13 +183,3 @@ export default function ExploreBusiness() {
     </Box>
   );
 }
-
-/* SMALL HELPER */
-const InfoRow = ({ icon, text }: { icon: React.ReactNode; text: string }) => (
-  <Box display="flex" alignItems="center" gap={1} mb={0.6}>
-    {icon}
-    <Typography variant="h6" color="#64748B">
-      {text}
-    </Typography>
-  </Box>
-);

@@ -38,6 +38,9 @@ interface ExploreBusinessProps {
   title?: string;
   description?: string;
   businesses?: BusinessItem[];
+  cities?: any[];
+  categories?: any[];
+  onSearch?: (filters:any)=>void;
 }
 
 /* ---------- FALLBACK ---------- */
@@ -71,6 +74,9 @@ export default function ExploreBusiness({
   title,
   description,
   businesses = [],
+  cities = [],
+  categories = [],
+  onSearch,
 }: ExploreBusinessProps) {
   /* ---------- GRID DATA ---------- */
   const cardData: UIBusiness[] = useMemo(() => {
@@ -93,7 +99,11 @@ export default function ExploreBusiness({
         </Box>
       )}
 
-      <JobFilterSection />
+      <JobFilterSection
+        cities={cities}
+        categories={categories}
+        onSearch={onSearch}
+      />
       <CustomTabs
         tabLabels={["Grid View", "Map View"]}
         tabContents={[
