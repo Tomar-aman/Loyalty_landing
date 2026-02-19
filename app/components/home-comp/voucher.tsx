@@ -53,7 +53,12 @@ export default function VoucherComp({ offers = [] }: VoucherCompProps) {
 
               {/* Button */}
               <Box mt={3}>
-                <CostumeButton className="lavenderBtn">
+                <CostumeButton className="lavenderBtn"
+                 onClick={() => {
+                    const footer = document.getElementById("footer");
+                    footer?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  >
                   Redeem Now
                 </CostumeButton>
               </Box>
