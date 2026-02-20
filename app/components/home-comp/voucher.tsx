@@ -9,6 +9,7 @@ interface VoucherCompProps {
 }
 
 export default function VoucherComp({ offers = [] }: VoucherCompProps) {
+  //console.log(offers, "offersggg");
   return (
     <Box>
       {/* Title */}

@@ -155,6 +155,7 @@ export interface BusinessItem {
   discount_text?: string | null;
   address?: string | null;
   phone_number?: string | null;
+  logo?: string;
   opening_time?: string | null;
   created_at?: string | null;
   closing_time?: string | null;

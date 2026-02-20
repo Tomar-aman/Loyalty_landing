@@ -99,10 +99,10 @@ const Landing = () => {
 
     fetchAllData();
   }, []);
-
+ 
   const handleBusinessSearch = async (filters: any) => {
     // check if all filters empty
-    const isEmpty = !filters.search && !filters.category && !filters.city;
+    const isEmpty = !filters.search && !filters.category && !filters.city && !filters.sort;
 
     const res = isEmpty
       ? await getFeaturedBusinesses() // default featured only
