@@ -35,7 +35,7 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
   categories = [],
 }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [sort, setSort] = useState("A-Z"); // default A–Z
+  const [sort, setSort] = useState("asc"); // default A–Z
   const [searchText, setSearchText] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
@@ -187,7 +187,7 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
       >
         <Box
           sx={{
-            width: 360,
+            width: 190,
             bgcolor: "#F4F4F6",
             p: 3,
           }}
@@ -198,37 +198,31 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography fontSize={20} fontWeight={600}>
-              Filter
-            </Typography>
             <IconButton size="small" onClick={handleClose}>
               <CloseIcon fontSize="small" />
             </IconButton>
           </Stack>
-
           {/* Sort */}
           <Box mt={3}>
             <Typography fontWeight={600} mb={1}>
               Sort By
             </Typography>
-
             <RadioGroup value={sort} onChange={(e) => setSort(e.target.value)}>
-  <FormControlLabel
-    value="asc"
-    control={<Radio />}
-    label="A–Z"
-  />
-  <FormControlLabel
-    value="desc"
-    control={<Radio />}
-    label="Z–A"
-  />
-</RadioGroup>
-
+              <FormControlLabel
+                value="asc"
+                control={<Radio />}
+                label="A–Z"
+              />
+              <FormControlLabel
+                value="desc"
+                control={<Radio />}
+                label="Z–A"
+              />
+            </RadioGroup>
           </Box>
 
           {/* Buttons */}
-          <Stack direction="row" spacing={2} mt={2} justifyContent={"end"}>
+          {/* <Stack direction="row" spacing={2} mt={2} justifyContent={"end"}>
             <CostumeButton className="outlineBtn" onClick={handleReset}>
               Reset
             </CostumeButton>
@@ -243,7 +237,7 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
             >
               Apply
             </CostumeButton>
-          </Stack>
+          </Stack> */}
         </Box>
       </Popover>
     </Box>
