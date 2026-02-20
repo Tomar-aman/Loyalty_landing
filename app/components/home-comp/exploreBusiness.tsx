@@ -28,6 +28,7 @@ interface UIBusiness {
   title: string;
   category: string;
   discount: string;
+  logo: string;
   address: string;
   phone_number: string;
   opening_time: string;
@@ -63,6 +64,7 @@ const mapBusinessToUI = (item: BusinessItem): UIBusiness => ({
   category: item.category?.name ?? "Business",
   discount: item.discount_text ?? "Special discounts available",
   address: item.address ?? "Address not available",
+  logo: item.logo ?? "",
   phone_number: item.phone_number ?? "N/A",
   opening_time:
     item.opening_time && item.closing_time
@@ -134,6 +136,20 @@ export default function ExploreBusiness({
                   <Typography variant="h5" fontSize={16} mt={1} color="#020817">
                     {item.discount}
                   </Typography>
+
+                  {item.logo && (
+                    <Box
+                      component="img"
+                      src={item.logo}
+                      alt="logo"
+                      sx={{
+                        height: 40,
+                        width: "auto",
+                        objectFit: "contain",
+                        mt: 1,
+                      }}
+                    />
+                  )}
 
                   <Box mt={2}>
                     <Stack rowGap={1}>

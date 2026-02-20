@@ -24,6 +24,7 @@ interface UIBusiness {
   title: string;
   category: string;
   discount: string;
+  logo: string;
   address: string;
   phone: string;
   time: string;
@@ -36,6 +37,7 @@ const mapBusinessToUI = (item: BusinessItem): UIBusiness => ({
   discount: item.discount_text ?? "Special discounts available",
   address: item.address ?? "Address not available",
   phone: item.phone_number ?? "N/A",
+  logo: item.logo ?? "",
   time:
     item.opening_time && item.closing_time
       ? `${item.opening_time} - ${item.closing_time}`
@@ -47,6 +49,7 @@ export default function ExploreBusiness() {
   const [cities, setCities] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [sort, setSort] = useState("asc");
 
   /* ⭐ INITIAL LOAD (ALL APIs) */
   useEffect(() => {
@@ -95,7 +98,8 @@ export default function ExploreBusiness() {
     const isEmpty =
       !filters.search &&
       !filters.category &&
-      !filters.city;
+      !filters.city  &&
+      !filters.sort;
 
     if (isEmpty) {
       fetchBusinesses(); // reset list
@@ -151,6 +155,20 @@ export default function ExploreBusiness() {
 
               <Typography variant="h6" color="#64748B">{item.category}</Typography>
               <Typography variant="h5" fontSize={16} mt={1}>{item.discount}</Typography>
+
+              {item.logo && (
+                <Box
+                  component="img"
+                  src={item.logo}
+                  alt="logo"
+                  sx={{
+                    height: 40,
+                    width: "auto",
+                    objectFit: "contain",
+                    mt: 1,
+                  }}
+                />
+              )}
 
               <Box mt={2}>
                 <Stack rowGap={1}>
