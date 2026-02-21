@@ -13,6 +13,7 @@ import IMAGES from "@/app/assets/images";
 import LocationPinIcon from "@mui/icons-material/LocationPin";
 import CostumeButton from "../button";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
+import ClickableBox from "../router";
 
 /* ---------- TYPES ---------- */
 interface BusinessMapProps {
@@ -118,21 +119,26 @@ export default function BusinessMap({ businesses }: BusinessMapProps) {
                       {b.address}
                     </Typography>
 
-                    <Box
-                      sx={{
-                        color: "#7C3BED",
-                        background: "#F0F0FF ",
-                        height: "29px ",
-                        padding: "12px",
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        borderRadius:"100px"
-                      }}
-                    >
-                      More details
-                      <ChevronRightOutlinedIcon />
-                    </Box>
+                    <ClickableBox nextPageUrl="/explore-businesses">
+                      <Box
+                        sx={{
+                          color: "#7C3BED",
+                          background: "#F0F0FF ",
+                          height: "29px ",
+                          padding: "12px",
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          borderRadius: "100px",
+                          "@media (max-width: 600px)": {
+                            width: "60% !important",
+                          },
+                        }}
+                      >
+                        More details
+                        <ChevronRightOutlinedIcon />
+                      </Box>
+                    </ClickableBox>
 
                     {/* OFFER */}
                     {b.offers?.[0]?.title && (
@@ -146,6 +152,9 @@ export default function BusinessMap({ businesses }: BusinessMapProps) {
                             "linear-gradient(100.61deg, #7C3BED 0%, #B366FF 100%)",
                           borderRadius: "6px",
                           fontWeight: "600",
+                          "@media (max-width: 600px)": {
+                            width: "60% !important",
+                          },
                         }}
                       >
                         {b.offers[0].title} off dinner
@@ -157,7 +166,12 @@ export default function BusinessMap({ businesses }: BusinessMapProps) {
                       direction="row"
                       spacing={1}
                       justifyContent="space-between"
-                      sx={{ mt: 2 }}
+                      sx={{
+                        mt: 2,
+                        "@media (max-width: 600px)": {
+                          marginLeft: "-90px !important",
+                        },
+                      }}
                     >
                       {b.phone_number && (
                         <CostumeButton

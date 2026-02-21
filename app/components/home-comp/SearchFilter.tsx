@@ -1,5 +1,5 @@
 "use client";
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Grid,
@@ -21,7 +21,7 @@ import CostumeButton from "../button";
 import { LabeledInput, SelectInput } from "../custom-input";
 
 interface SearchFilterBarProps {
-  onSearch?: (filters:any)=>void;
+  onSearch?: (filters: any) => void;
   cities?: any[];
   categories?: any[];
 }
@@ -56,18 +56,17 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
   };
 
   useEffect(() => {
-  const delay = setTimeout(() => {
-    onSearch?.({
-      search: searchText,
-      category: selectedCategory,
-      city: selectedCity,
-      sort: sort === "asc" ? "asc" : "desc",
-    });
-  }, 500);
+    const delay = setTimeout(() => {
+      onSearch?.({
+        search: searchText,
+        category: selectedCategory,
+        city: selectedCity,
+        sort: sort === "asc" ? "asc" : "desc",
+      });
+    }, 500);
 
-  return () => clearTimeout(delay);
-}, [searchText, selectedCategory, selectedCity, sort]);
-
+    return () => clearTimeout(delay);
+  }, [searchText, selectedCategory, selectedCity, sort]);
 
   return (
     <Box
@@ -88,7 +87,7 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
           <LabeledInput
             placeholder="Search..."
             value={searchText}
-          onChange={(e:any)=>setSearchText(e.target.value)}
+            onChange={(e: any) => setSearchText(e.target.value)}
             placeholderStyle={{ color: "#000 !important" }}
           />
         </Grid>
@@ -112,10 +111,16 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
       </Grid>
 
       {/* FILTER ROW */}
-      <Box mt={3}>
+      <Box
+        mt={3}
+        sx={{
+          "@media (max-width: 600px)": {
+            ml: -5,
+          },
+        }}
+      >
         <Stack
           direction={{ sm: "row", xs: "column" }}
-          // direction={"row"}
           spacing={2}
           alignItems="center"
         >
@@ -165,10 +170,10 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
               }}
               placeholder="City"
               value={selectedCity}
-              onChange={(value:any)=>setSelectedCity(value)}
-              options={(cities ?? []).map((c:any)=>({
+              onChange={(value: any) => setSelectedCity(value)}
+              options={(cities ?? []).map((c: any) => ({
                 value: c.name,
-                label: c.name
+                label: c.name,
               }))}
             />
           </FormGroup>
@@ -208,16 +213,8 @@ const JobFilterSection: React.FC<SearchFilterBarProps> = ({
               Sort By
             </Typography>
             <RadioGroup value={sort} onChange={(e) => setSort(e.target.value)}>
-              <FormControlLabel
-                value="asc"
-                control={<Radio />}
-                label="A–Z"
-              />
-              <FormControlLabel
-                value="desc"
-                control={<Radio />}
-                label="Z–A"
-              />
+              <FormControlLabel value="asc" control={<Radio />} label="A–Z" />
+              <FormControlLabel value="desc" control={<Radio />} label="Z–A" />
             </RadioGroup>
           </Box>
 

@@ -13,10 +13,7 @@ interface GetInTouchProps {
   description?: string | null;
 }
 
-export default function GetInTouch({
-  title,
-  description,
-}: GetInTouchProps) {
+export default function GetInTouch({ title, description }: GetInTouchProps) {
   /* ---------- STATE ---------- */
   const [form, setForm] = useState({
     first_name: "",
@@ -29,13 +26,9 @@ export default function GetInTouch({
   const [loading, setLoading] = useState(false);
 
   /* ---------- HANDLERS ---------- */
-  const handleChange =
-  (key: keyof typeof form) =>
-  (value: any) => {
+  const handleChange = (key: keyof typeof form) => (value: any) => {
     const newValue =
-      typeof value === "string"
-        ? value
-        : value?.target?.value ?? "";
+      typeof value === "string" ? value : (value?.target?.value ?? "");
 
     setForm((prev) => ({ ...prev, [key]: newValue }));
   };
@@ -201,13 +194,21 @@ export default function GetInTouch({
               justifyContent: "flex-end",
             }}
           >
-            <CostumeButton
-              className="primaryBtn"
-              onClick={handleSubmit}
-              disabled={loading}
+            <Box
+              sx={{
+                "@media (max-width: 600px)": {
+                  margin: "auto",
+                },
+              }}
             >
-              {loading ? "Sending..." : "Send Message"}
-            </CostumeButton>
+              <CostumeButton
+                className="primaryBtn"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {loading ? "Sending..." : "Send Message"}
+              </CostumeButton>
+            </Box>
           </Grid>
         </Grid>
       </Box>
