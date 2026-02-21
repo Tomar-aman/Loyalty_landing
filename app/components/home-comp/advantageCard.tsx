@@ -53,7 +53,17 @@ export default function AdvantageCard({
           </Typography>
 
           {/* IMAGE */}
-          <Box my={3}>
+          <Box
+            my={3}
+            sx={{
+              img: {
+                "@media (max-width: 600px)": {
+                  objectFit: "contain",
+                  height:"auto",
+                },
+              },
+            }}
+          >
             <Image
               src={image || IMAGES.ActivatcardNew}
               alt="Advantage Card"
@@ -93,17 +103,14 @@ export default function AdvantageCard({
                 title={card.name}
                 duration={formatDuration(card.duration)}
                 price={`$${card.price}`}
-                features={card.benefits?.map(b => b.title) ?? []}
+                features={card.benefits?.map((b) => b.title) ?? []}
                 popular={card.is_popular || index === 1}
                 buttonText={`Activate ${card.name}`}
                 variant={card.is_popular ? "primaryBtn" : "outlineBtn"}
-                
               />
             ))
           ) : (
-            <Typography color="text.secondary">
-              No plans available
-            </Typography>
+            <Typography color="text.secondary">No plans available</Typography>
           )}
         </Grid>
       </Grid>
@@ -188,8 +195,7 @@ const PlanCard = ({
     {popular && (
       <Box
         sx={{
-          background:
-            "linear-gradient(102.45deg, #0000FF 0%, #BB33FF 100%)",
+          background: "linear-gradient(102.45deg, #0000FF 0%, #BB33FF 100%)",
           color: "#FFFFFF",
           padding: "4px 16px",
           position: "absolute",
@@ -228,21 +234,23 @@ const PlanCard = ({
           sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1 }}
         >
           <SVGICON.Check />
-          <Typography variant="h6" color="#64748B">{text}</Typography>
+          <Typography variant="h6" color="#64748B">
+            {text}
+          </Typography>
         </Box>
       ))}
     </Box>
 
     <CostumeButton
-  className={variant}
-  onClick={() => {
-    const footer = document.getElementById("footer");
-    if (footer) {
-      footer.scrollIntoView({ behavior: "smooth" });
-    }
-  }}
->
-  {buttonText}
-</CostumeButton>
+      className={variant}
+      onClick={() => {
+        const footer = document.getElementById("footer");
+        if (footer) {
+          footer.scrollIntoView({ behavior: "smooth" });
+        }
+      }}
+    >
+      {buttonText}
+    </CostumeButton>
   </Box>
 );

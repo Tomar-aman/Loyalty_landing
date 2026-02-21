@@ -120,7 +120,8 @@ export const CostumeButtonStyled = styled("div")(() => ({
     minWidth: "fit-content",
     borderRadius: "10px",
     "@media (max-width: 600px)": {
-      minWidth: "250px !important",
+      // minWidth: "250px !important",
+      justifyContent:"left !important"
     },
   },
 }));

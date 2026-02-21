@@ -91,12 +91,6 @@ input:-moz-autofill:focus {
   z-index: 9999; */
 }
 
-@media (max-width: 600px) {
-  .pageColor {
-    padding: 20px;
-  }
-}
-
 /* MAP MODAL */
 .leaflet-popup-content-wrapper,
 .leaflet-popup-tip{
@@ -119,4 +113,15 @@ input:-moz-autofill:focus {
 
 .mapContent{
   width: 300px !important;
+}
+
+@media (max-width: 600px) {
+  .pageColor {
+    padding: 20px;
+  }
+
+  .leaflet-popup-content-wrapper,
+  .leaflet-popup-tip {
+    width: 100% !important;
+  }
 }
