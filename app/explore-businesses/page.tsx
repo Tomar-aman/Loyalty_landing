@@ -128,7 +128,8 @@ export default function ExploreBusiness() {
         </Typography>
 
         <Typography variant="h6" sx={{ color: "#64748B", my: 3 }}>
-          Discover amazing local businesses in your area with exclusive discounts.
+          Discover amazing local businesses in your area with exclusive
+          discounts.
         </Typography>
       </Box>
 
@@ -143,7 +144,10 @@ export default function ExploreBusiness() {
       <Grid container spacing={2}>
         {businesses.map((item) => (
           <Grid size={{ xs: 12, md: 4 }} key={item.id}>
-            <Box className="customCardShadow" sx={{ boxShadow:"0px 1px 36.9px 0px #6A6A6A40", minHeight:250 }}>
+            <Box
+              className="customCardShadow"
+              sx={{ boxShadow: "0px 1px 36.9px 0px #6A6A6A40", minHeight: 250 }}
+            >
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="h3">{item.title}</Typography>
                 <ClickableBox nextPageUrl={`/gallery?id=${item.id}`}>
@@ -153,8 +157,21 @@ export default function ExploreBusiness() {
                 </ClickableBox>
               </Box>
 
-              <Typography variant="h6" color="#64748B">{item.category}</Typography>
-              <Typography variant="h5" fontSize={16} mt={1}>{item.discount}</Typography>
+              <Typography variant="h6" color="#64748B">
+                {item.category}
+              </Typography>
+              <Typography
+                sx={{
+                  "@media (max-width: 600px)": {
+                    fontSize: "16px",
+                  },
+                }}
+                variant="h5"
+                fontSize={16}
+                mt={1}
+              >
+                {item.discount}
+              </Typography>
 
               {item.logo && (
                 <Box
@@ -173,22 +190,28 @@ export default function ExploreBusiness() {
               <Box mt={2}>
                 <Stack rowGap={1}>
                   <Stack direction="row" spacing={1}>
-                    <RoomIcon fontSize="small" sx={{ color:"#64748B" }} />
-                    <Typography variant="h6" sx={{ color:"#64748B" }}>
+                    <RoomIcon fontSize="small" sx={{ color: "#64748B" }} />
+                    <Typography variant="h6" sx={{ color: "#64748B" }}>
                       <WordLimitText text={item.address} />
                     </Typography>
                   </Stack>
 
                   <Stack direction="row" spacing={1}>
-                    <LocalPhoneIcon fontSize="small" sx={{ color:"#64748B" }} />
-                    <Typography variant="h6" sx={{ color:"#64748B" }}>
+                    <LocalPhoneIcon
+                      fontSize="small"
+                      sx={{ color: "#64748B" }}
+                    />
+                    <Typography variant="h6" sx={{ color: "#64748B" }}>
                       {item.phone}
                     </Typography>
                   </Stack>
 
                   <Stack direction="row" spacing={1}>
-                    <AccessTimeIcon fontSize="small" sx={{ color:"#64748B" }} />
-                    <Typography variant="h6" sx={{ color:"#64748B" }}>
+                    <AccessTimeIcon
+                      fontSize="small"
+                      sx={{ color: "#64748B" }}
+                    />
+                    <Typography variant="h6" sx={{ color: "#64748B" }}>
                       {item.time}
                     </Typography>
                   </Stack>

@@ -41,7 +41,7 @@ interface ExploreBusinessProps {
   businesses?: BusinessItem[];
   cities?: any[];
   categories?: any[];
-  onSearch?: (filters:any)=>void;
+  onSearch?: (filters: any) => void;
 }
 
 /* ---------- FALLBACK ---------- */
@@ -117,7 +117,7 @@ export default function ExploreBusiness({
                   className="customCardShadow"
                   sx={{
                     boxShadow: "0px 1px 36.9px 0px #6A6A6A40",
-                    minHeight: 250,
+                    minHeight: "300px !important",
                   }}
                 >
                   <Box display="flex" justifyContent="space-between">
@@ -133,23 +133,38 @@ export default function ExploreBusiness({
                     {item.category}
                   </Typography>
 
-                  <Typography variant="h5" fontSize={16} mt={1} color="#020817">
-                    {item.discount}
-                  </Typography>
-
-                  {item.logo && (
-                    <Box
-                      component="img"
-                      src={item.logo}
-                      alt="logo"
+                  <Stack
+                    direction={"row"}
+                    alignItems={"center"}
+                    justifyContent={"space-between"}
+                  >
+                    <Typography
+                      variant="h5"
+                      fontSize={16}
+                      mt={1}
+                      color="#020817"
                       sx={{
-                        height: 40,
-                        width: "auto",
-                        objectFit: "contain",
-                        mt: 1,
+                        "@media (max-width: 600px)": {
+                        fontSize:"16px"
+                        },
                       }}
-                    />
-                  )}
+                    >
+                      {item.discount}
+                    </Typography>
+
+                    {item.logo && (
+                      <Box
+                        component="img"
+                        src={item.logo}
+                        alt="logo"
+                        sx={{
+                          height: "80px",
+                          width: "80px",
+                          borderRadius: "4px",
+                        }}
+                      />
+                    )}
+                  </Stack>
 
                   <Box mt={2}>
                     <Stack rowGap={1}>
