@@ -141,7 +141,7 @@ export default function ExploreBusiness() {
               className="customCardShadow"
               sx={{
                 boxShadow: "0px 1px 36.9px 0px #6A6A6A40",
-                minHeight: "300px !important",
+                minHeight: "265px !important",
               }}
             >
               <Box display="flex" justifyContent="space-between">
@@ -207,7 +207,7 @@ export default function ExploreBusiness() {
                     </Typography>
                   </Stack>
 
-                  <Stack direction="row" spacing={1}>
+                  {/* <Stack direction="row" spacing={1}>
                     <AccessTimeIcon
                       fontSize="small"
                       sx={{ color: "#64748B" }}
@@ -215,7 +215,7 @@ export default function ExploreBusiness() {
                     <Typography variant="h6" sx={{ color: "#64748B" }}>
                       {item.time}
                     </Typography>
-                  </Stack>
+                  </Stack> */}
                 </Stack>
               </Box>
             </Box>
