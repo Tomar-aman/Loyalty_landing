@@ -49,7 +49,7 @@ export default function Footer() {
     { label: "Explore Businesses", id: "business" },
     { label: "Advantage Cards", id: "cards" },
     { label: "News", id: "news" },
-    { label: "Get in tuch", id: "getintouch" },
+    { label: "Get in touch", id: "getintouch" },
   ];
   /* ---------- FETCH ALL FOOTER DATA ---------- */
   useEffect(() => {
