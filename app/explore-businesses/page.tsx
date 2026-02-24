@@ -7,11 +7,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import CostumeButton from "../components/button";
 import { useEffect, useState } from "react";
 
-import {
-  getFeaturedBusinesses,
-  getCities,
-  getCategories,
-} from "../api/home";
+import { getFeaturedBusinesses, getCities, getCategories } from "../api/home";
 
 import { RemoteStatus } from "../api/types";
 import { BusinessItem } from "@/services/types.";
@@ -68,7 +64,7 @@ export default function ExploreBusiness() {
 
         // cities
         if (cityRes.remote === RemoteStatus.Success) {
-          setCities((cityRes.data as {results: any}).results);
+          setCities((cityRes.data as { results: any }).results);
         }
 
         // categories
@@ -96,10 +92,7 @@ export default function ExploreBusiness() {
 
   const onSearch = async (filters: any) => {
     const isEmpty =
-      !filters.search &&
-      !filters.category &&
-      !filters.city  &&
-      !filters.sort;
+      !filters.search && !filters.category && !filters.city && !filters.sort;
 
     if (isEmpty) {
       fetchBusinesses(); // reset list
@@ -146,7 +139,10 @@ export default function ExploreBusiness() {
           <Grid size={{ xs: 12, md: 4 }} key={item.id}>
             <Box
               className="customCardShadow"
-              sx={{ boxShadow: "0px 1px 36.9px 0px #6A6A6A40", minHeight: 250 }}
+              sx={{
+                boxShadow: "0px 1px 36.9px 0px #6A6A6A40",
+                minHeight: "300px !important",
+              }}
             >
               <Box display="flex" justifyContent="space-between">
                 <Typography variant="h3">{item.title}</Typography>
@@ -160,32 +156,37 @@ export default function ExploreBusiness() {
               <Typography variant="h6" color="#64748B">
                 {item.category}
               </Typography>
-              <Typography
-                sx={{
-                  "@media (max-width: 600px)": {
-                    fontSize: "16px",
-                  },
-                }}
-                variant="h5"
-                fontSize={16}
-                mt={1}
+              <Stack
+                direction={"row"}
+                alignItems={"center"}
+                justifyContent={"space-between"}
               >
-                {item.discount}
-              </Typography>
-
-              {item.logo && (
-                <Box
-                  component="img"
-                  src={item.logo}
-                  alt="logo"
+                <Typography
                   sx={{
-                    height: 40,
-                    width: "auto",
-                    objectFit: "contain",
-                    mt: 1,
+                    "@media (max-width: 600px)": {
+                      fontSize: "16px",
+                    },
                   }}
-                />
-              )}
+                  variant="h5"
+                  fontSize={16}
+                  mt={1}
+                >
+                  {item.discount}
+                </Typography>
+
+                {item.logo && (
+                  <Box
+                    component="img"
+                    src={item.logo}
+                    alt="logo"
+                    sx={{
+                      height: "80px",
+                      width: "80px",
+                      borderRadius: "4px",
+                    }}
+                  />
+                )}
+              </Stack>
 
               <Box mt={2}>
                 <Stack rowGap={1}>
