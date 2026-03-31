@@ -11,6 +11,7 @@ import { FC, useMemo } from "react";
 import dynamic from "next/dynamic";
 import WordLimitText from "../wordLimit/limit";
 import JobFilterSection from "./SearchFilter";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 type BusinessMapProps = {
   businesses: BusinessItem[];
@@ -69,7 +70,7 @@ const mapBusinessToUI = (item: BusinessItem): UIBusiness => ({
   opening_time:
     item.opening_time && item.closing_time
       ? `${item.opening_time} - ${item.closing_time}`
-      : "Timings not available", 
+      : "Timings not available",
 });
 
 export default function ExploreBusiness({
@@ -118,13 +119,24 @@ export default function ExploreBusiness({
                   sx={{
                     boxShadow: "0px 1px 36.9px 0px #6A6A6A40",
                     minHeight: "265px !important",
+                    position: "relative",
                   }}
                 >
                   <Box display="flex" justifyContent="space-between">
-                    <Typography variant="h3">{item.title}</Typography>
+                    <ClickableBox nextPageUrl={`/gallery?id=${item.id}`}>
+                      <Typography variant="h3">{item.title}</Typography>
+                    </ClickableBox>
                     <ClickableBox nextPageUrl={`/gallery?id=${item.id}`}>
                       <CostumeButton className="successBtn">
                         More details
+                      </CostumeButton>
+                    </ClickableBox>
+                  </Box>
+
+                  <Box sx={{ position: "absolute", bottom: 16, right: 16 }}>
+                    <ClickableBox nextPageUrl={`/gallery?id=${item.id}`}>
+                      <CostumeButton className="outlineBtn">
+                        <ArrowForwardIcon sx={{ color: "#0A0A0A" }} />
                       </CostumeButton>
                     </ClickableBox>
                   </Box>
@@ -145,7 +157,7 @@ export default function ExploreBusiness({
                       color="#020817"
                       sx={{
                         "@media (max-width: 600px)": {
-                        fontSize:"16px"
+                          fontSize: "16px",
                         },
                       }}
                     >
@@ -200,7 +212,7 @@ export default function ExploreBusiness({
                         </Typography>
                       </Stack>
 
-                     {/* <Stack direction="row" alignItems="center" spacing={1}>
+                      {/* <Stack direction="row" alignItems="center" spacing={1}>
                         <AccessTimeIcon
                           fontSize="small"
                           sx={{
