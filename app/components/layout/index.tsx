@@ -7,7 +7,7 @@ function Layout({ children }: IcustomComponent) {
   return (
     <>
       <Box>
-        {/* <Header /> */}
+        <Header />
         {children}
       </Box>
       <Footer />

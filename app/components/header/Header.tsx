@@ -1,18 +1,25 @@
 import SVG from "@/app/assets/svg";
 import CostumeButton from "../button";
 import { Box, Stack, Typography } from "@mui/material";
+import ClickableBox from "../router";
 
 export default function Header() {
   return (
-    <Box sx={{ background: "#0C1518", p: 2, borderRadius: "20px", mt: 1 }}>
+    <Box sx={{ background: "#F3F3F5", px: 12, py: 2 }}>
       <Stack
         direction="row"
         justifyContent={"space-between"}
         alignItems={"center"}
       >
         {/* <SVG.Headerlogo /> */}
-        <Typography variant="h3">MikeVehicles</Typography>
-        <CostumeButton className="customBtn">+1 222-222-222</CostumeButton>
+        <ClickableBox nextPageUrl="/">
+          <CostumeButton className="primaryBtn">Start</CostumeButton>
+        </ClickableBox>
+        <Stack direction="row" spacing={2}>
+          <ClickableBox nextPageUrl="/explore-businesses">
+            <CostumeButton className="outlineBtn">Company</CostumeButton>
+          </ClickableBox>
+        </Stack>
       </Stack>
     </Box>
   );
